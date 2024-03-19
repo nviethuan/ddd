@@ -26,6 +26,12 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Before you begin
+
+```bash
+$ git clone --recurse-submodules <Github libs repo>
+```
+
 ## Installation
 
 ```bash
