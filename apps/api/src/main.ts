@@ -2,10 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { ApiModule } from './api.module';
 import { inspect } from 'util';
 import { Logger } from '@nestjs/common';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiModule, {
     snapshot: true,
+  });
+
+  app.connectMicroservice({
+    transport: Transport.GRPC,
   });
 
   console.log(

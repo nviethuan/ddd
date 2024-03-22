@@ -14,7 +14,8 @@ module.exports = {
     'lerna',
   ],
   scopes: [
-    'apps',
+    'apps/api',
+    'apps/shared',
     'libs',
     'env',
     'config',

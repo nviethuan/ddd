@@ -11,6 +11,7 @@
     ]
   },
   "scripts": {
+    "g:app": "nest g app",
     "build": "npm run build:apps:api",
     "build:apps:api": "nest build",
     "build:apps:api:prod": "nest build api-prod",
@@ -38,6 +39,7 @@
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/microservices": "^10.3.5",
     "@nestjs/platform-express": "^10.0.0",
     "mongoose": "^8.2.0",
     "reflect-metadata": "^0.2.0",
