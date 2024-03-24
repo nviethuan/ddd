@@ -5,7 +5,8 @@ module.exports = function (options, webpack) {
   console.log(options.entry);
   return {
     ...options,
-    entry: ['webpack/hot/poll?100', options.entry],
+    entry: ['webpack/hot/poll?100', `${options.entry}`.replace('.ts', '.hot.ts')],
+    devtool: 'source-map',
     externals: [
       nodeExternals({
         allowlist: ['webpack/hot/poll?100'],
