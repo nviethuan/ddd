@@ -17,6 +17,13 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@modules/user": [
+        "modules/user/src"
+      ],
+      "@modules/user/*": [
+        "modules/user/src/*"
+      ]
+    }
   }
 }

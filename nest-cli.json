@@ -7,6 +7,7 @@
     "webpack": true,
     "tsConfigPath": "apps/api/tsconfig.app.json"
   },
+  "defaultLibraryPrefix": "@modules",
   "monorepo": true,
   "root": "apps/api",
   "projects": {
@@ -26,6 +27,15 @@
       "sourceRoot": "apps/cli/src",
       "compilerOptions": {
         "tsConfigPath": "apps/cli/tsconfig.app.json"
+      }
+    },
+    "user": {
+      "type": "library",
+      "root": "modules/user",
+      "entryFile": "index",
+      "sourceRoot": "modules/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "modules/user/tsconfig.lib.json"
       }
     }
   }
