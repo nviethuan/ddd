@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/user"
+    "declarationMap": true,
+    "outDir": "../../dist/modules/user",
+    "declarationDir": "../../dist/modules/user"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]

@@ -2,16 +2,32 @@ const nodeExternals = require('webpack-node-externals');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
 module.exports = function (options, webpack) {
-  console.log(options.entry);
-  return {
+  const config = {
     ...options,
-    entry: ['webpack/hot/poll?100', `${options.entry}`.replace('.ts', '.hot.ts')],
+    entry: ['webpack/hot/poll?100', `${options.entry}`.replace('.ts', '.ts')],
     devtool: 'source-map',
     externals: [
       nodeExternals({
         allowlist: ['webpack/hot/poll?100'],
       }),
     ],
+    mode: 'development',
+    module: {
+      rules: [
+        {
+          test: /.tsx?$/,
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: false
+              }
+            }
+          ],
+          exclude: /node_modules/,
+        },
+      ],
+    },
     plugins: [
       ...options.plugins,
       new webpack.HotModuleReplacementPlugin(),
@@ -21,4 +37,5 @@ module.exports = function (options, webpack) {
       // new RunScriptWebpackPlugin({ name: options.output.filename, autoRestart: false }),
     ],
   };
+  return config;
 };
