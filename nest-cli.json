@@ -11,6 +11,19 @@
   "monorepo": true,
   "root": "apps/api",
   "projects": {
+    "core": {
+      "type": "library",
+      "root": "core",
+      "entryFile": "index",
+      "sourceRoot": "core",
+      "compilerOptions": {
+        "deleteOutDir": true,
+        "tsConfigPath": "core/tsconfig.lib.json",
+        "builder": "tsc",
+        "webpack": false,
+        "typeCheck": true
+      }
+    },
     "api": {
       "type": "application",
       "root": "apps/api",
@@ -18,7 +31,19 @@
       "sourceRoot": "apps/api/src",
       "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json",
-        "webpackConfigPath": ".webpack/webpack-swc.config.js"
+        "webpackConfigPath": ".webpack/webpack-swc.config.js",
+        "typeCheck": true
+      }
+    },
+    "api-prod": {
+      "type": "application",
+      "root": "apps/api",
+      "entryFile": "main",
+      "sourceRoot": "apps/api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api/tsconfig.app.json",
+        "webpackConfigPath": ".webpack/webpack.prod.js",
+        "typeCheck": true
       }
     },
     "cli": {
@@ -28,7 +53,19 @@
       "sourceRoot": "apps/cli/src",
       "compilerOptions": {
         "tsConfigPath": "apps/cli/tsconfig.app.json",
-        "webpackConfigPath": ".webpack/webpack-swc.config.js"
+        "webpackConfigPath": ".webpack/webpack-swc.config.js",
+        "typeCheck": true
+      }
+    },
+    "cli-prod": {
+      "type": "application",
+      "root": "apps/cli",
+      "entryFile": "main",
+      "sourceRoot": "apps/cli/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/cli/tsconfig.app.json",
+        "webpackConfigPath": ".webpack/webpack.prod.js",
+        "typeCheck": true
       }
     },
     "user": {

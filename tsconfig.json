@@ -18,10 +18,18 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@modules/user": ["modules/user/src"],
-      "@modules/user/*": ["modules/user/src/*"],
-      "@utils": ["utils"],
-      "@utils/*": ["utils/*"]
+      "@modules/user": [
+        "modules/user/src"
+      ],
+      "@modules/user/*": [
+        "modules/user/src/*"
+      ],
+      "@utils": [
+        "utils"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ]
     }
   }
 }

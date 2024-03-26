@@ -1,22 +1,15 @@
 const nodeExternals = require('webpack-node-externals');
-// const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
 const swcDefaultConfig =
   require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory({
     sourceMap: false,
-    moduleResolution: 'node',
   }).swcOptions;
 
-module.exports = function (options, webpack) {
+module.exports = function (options, _webpack) {
   const config = {
     ...options,
-    entry: ['webpack/hot/poll?100', options.entry],
-    devtool: 'eval-cheap-module-source-map',
-    externals: [
-      nodeExternals({
-        allowlist: ['webpack/hot/poll?100'],
-      }),
-    ],
+    entry: [options.entry],
+    externals: [nodeExternals()],
     mode: process.env.NODE_ENV || 'development',
     module: {
       rules: [
@@ -30,17 +23,7 @@ module.exports = function (options, webpack) {
         },
       ],
     },
-    plugins: [
-      ...options.plugins,
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.WatchIgnorePlugin({
-        paths: [/\.js$/, /\.d\.ts$/],
-      }),
-      // new RunScriptWebpackPlugin({ name: options.output.filename, autoRestart: false }),
-    ],
   };
-
-  // console.log(JSON.stringify(config, null, 2));
 
   return config;
 };
