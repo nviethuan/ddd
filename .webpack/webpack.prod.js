@@ -1,30 +1,32 @@
 const nodeExternals = require('webpack-node-externals');
-const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+// const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+
+const swcDefaultConfig =
+  require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory({
+    sourceMap: false,
+    moduleResolution: 'node',
+  }).swcOptions;
 
 module.exports = function (options, webpack) {
   const config = {
     ...options,
-    entry: ['webpack/hot/poll?100', `${options.entry}`.replace('.ts', '.ts')],
-    devtool: 'source-map',
+    entry: ['webpack/hot/poll?100', options.entry],
+    devtool: 'eval-cheap-module-source-map',
     externals: [
       nodeExternals({
         allowlist: ['webpack/hot/poll?100'],
       }),
     ],
-    mode: 'development',
+    mode: process.env.NODE_ENV || 'development',
     module: {
       rules: [
         {
-          test: /.tsx?$/,
-          use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                transpileOnly: false
-              }
-            }
-          ],
+          test: /\.ts$/,
           exclude: /node_modules/,
+          use: {
+            loader: 'swc-loader',
+            options: swcDefaultConfig,
+          },
         },
       ],
     },
@@ -37,5 +39,8 @@ module.exports = function (options, webpack) {
       // new RunScriptWebpackPlugin({ name: options.output.filename, autoRestart: false }),
     ],
   };
+
+  // console.log(JSON.stringify(config, null, 2));
+
   return config;
 };

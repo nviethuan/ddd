@@ -18,7 +18,7 @@
       "sourceRoot": "apps/api/src",
       "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json",
-        "webpackConfigPath": "webpack-hmr.config.js"
+        "webpackConfigPath": ".webpack/webpack-swc.config.js"
       }
     },
     "cli": {
@@ -28,7 +28,7 @@
       "sourceRoot": "apps/cli/src",
       "compilerOptions": {
         "tsConfigPath": "apps/cli/tsconfig.app.json",
-        "webpackConfigPath": "webpack-hmr.config.js"
+        "webpackConfigPath": ".webpack/webpack-swc.config.js"
       }
     },
     "user": {
@@ -39,7 +39,8 @@
       "compilerOptions": {
         "deleteOutDir": true,
         "tsConfigPath": "modules/user/tsconfig.lib.json",
-        "webpackConfigPath": "webpack-hmr.config.js",
+        "builder": "tsc",
+        "webpack": false,
         "typeCheck": true
       }
     }

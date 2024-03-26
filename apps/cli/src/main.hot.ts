@@ -1,4 +1,4 @@
-import { webpackHRMWrapper } from '@utils/hrm';
+import { webpackHRMWrapper } from 'utils/hrm';
 import { bootstrap } from '.';
 
 webpackHRMWrapper(bootstrap);

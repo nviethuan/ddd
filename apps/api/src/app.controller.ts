@@ -11,8 +11,6 @@ export class AppController {
 
   @Get()
   async getHello() {
-    this.client.send('/ping', {})
-
     const res = this.appService.getHello();
     return res;
   }
