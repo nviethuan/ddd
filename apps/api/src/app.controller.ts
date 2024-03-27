@@ -1,16 +1,12 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    @Inject('golang-api') private client: ClientProxy,
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   @Get()
-  async getHello() {
+  getHello() {
     const res = this.appService.getHello();
     return res;
   }
