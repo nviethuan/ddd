@@ -3,19 +3,32 @@ const cleanArch = {
     commands: {},
     queries: {},
   },
+  presentation: {
+    controllers: {},
+    guards: {},
+    decorators: {},
+  },
   infrastructure: {
-    primaries: {
-      db: {
-        migrations: {},
-        models: {},
+    adapters: {
+      primaries: {
+        db: {
+          migrations: {},
+          models: {},
+        },
+      },
+      secondaries: {
+        push_notificattion: {},
+        queue: {},
+        http_request: {},
       },
     },
-    secondaries: {},
+    ports: {},
   },
   domain: {
     entities: {},
     objectValues: {},
     exceptions: {},
+    events: {},
   },
 };
 
@@ -25,13 +38,14 @@ const structure = {
     cli: {},
   },
   modules: {
-    auth: {},
-    user: {},
+    auth: cleanArch,
+    user: cleanArch,
   },
   utils: {},
   libs: {
     schedule: {},
     mongodb: {},
     kafka: {},
+    logger: {},
   },
 };
