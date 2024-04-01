@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  protoc_buider:
+    image: ngnviethuan/protoc:golang
+    volumes:
+      - ./exports/:/opt/data
+    tty: true
