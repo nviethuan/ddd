@@ -7,18 +7,17 @@
     "webpack": true,
     "tsConfigPath": "apps/api/tsconfig.app.json"
   },
-  "defaultLibraryPrefix": "@modules",
   "monorepo": true,
   "root": "apps/api",
   "projects": {
-    "core": {
-      "type": "library",
-      "root": "core",
+    "modules": {
+      "type": "application",
+      "root": "modules",
       "entryFile": "index",
-      "sourceRoot": "core",
+      "sourceRoot": "modules",
       "compilerOptions": {
         "deleteOutDir": true,
-        "tsConfigPath": "core/tsconfig.lib.json",
+        "tsConfigPath": "modules/tsconfig.app.json",
         "builder": "tsc",
         "webpack": false,
         "typeCheck": true
@@ -79,6 +78,15 @@
         "builder": "tsc",
         "webpack": false,
         "typeCheck": true
+      }
+    },
+    "mongo": {
+      "type": "library",
+      "root": "libs/mongo",
+      "entryFile": "index",
+      "sourceRoot": "libs/mongo/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mongo/tsconfig.lib.json"
       }
     }
   }

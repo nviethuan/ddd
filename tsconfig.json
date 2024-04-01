@@ -18,17 +18,17 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@modules/user": [
-        "modules/user/src"
-      ],
-      "@modules/user/*": [
-        "modules/user/src/*"
-      ],
       "@utils": [
         "utils"
       ],
       "@utils/*": [
         "utils/*"
+      ],
+      "@app/mongo": [
+        "libs/mongo/src"
+      ],
+      "@app/mongo/*": [
+        "libs/mongo/src/*"
       ]
     }
   }
