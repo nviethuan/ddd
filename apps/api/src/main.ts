@@ -1,3 +1,6 @@
+import { clusterizer } from '@utils/clusterizer';
 import { bootstrap } from '.';
 
-bootstrap();
+
+
+clusterizer(bootstrap);

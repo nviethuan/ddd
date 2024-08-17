@@ -90,7 +90,7 @@
     "moduleNameMapper": {
       "^@modules/user(|/.*)$": "<rootDir>/modules/user/src/$1",
       "^defaultLibraryPrefix/abc(|/.*)$": "<rootDir>/libs/abc/src/$1",
-      "^@app/mongo(|/.*)$": "<rootDir>/libs/mongo/src/$1"
+      "^@app/mongodb(|/.*)$": "<rootDir>/libs/mongodb/src/$1"
     }
   }
 }

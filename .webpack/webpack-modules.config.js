@@ -4,7 +4,7 @@ const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 module.exports = function (options, webpack) {
   const config = {
     ...options,
-    entry: ['webpack/hot/poll?100', `${options.entry}`.replace('.ts', '.ts')],
+    entry: ['webpack/hot/poll?100', options.entry],
     devtool: 'source-map',
     externals: [
       nodeExternals({

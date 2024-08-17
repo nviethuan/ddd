@@ -56,37 +56,13 @@
         "typeCheck": true
       }
     },
-    "cli-prod": {
-      "type": "application",
-      "root": "apps/cli",
-      "entryFile": "main",
-      "sourceRoot": "apps/cli/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/cli/tsconfig.app.json",
-        "webpackConfigPath": ".webpack/webpack.prod.js",
-        "typeCheck": true
-      }
-    },
-    "user": {
+    "mongodb": {
       "type": "library",
-      "root": "modules/user",
+      "root": "libs/mongodb",
       "entryFile": "index",
-      "sourceRoot": "modules/user/src",
+      "sourceRoot": "libs/mongodb/src",
       "compilerOptions": {
-        "deleteOutDir": true,
-        "tsConfigPath": "modules/user/tsconfig.lib.json",
-        "builder": "tsc",
-        "webpack": false,
-        "typeCheck": true
-      }
-    },
-    "mongo": {
-      "type": "library",
-      "root": "libs/mongo",
-      "entryFile": "index",
-      "sourceRoot": "libs/mongo/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/mongo/tsconfig.lib.json"
+        "tsConfigPath": "libs/mongodb/tsconfig.lib.json"
       }
     }
   }
