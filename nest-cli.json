@@ -56,6 +56,15 @@
         "typeCheck": true
       }
     },
+    "common": {
+      "type": "application",
+      "root": "common",
+      "entryFile": "index",
+      "sourceRoot": "common/src",
+      "compilerOptions": {
+        "tsConfigPath": "common/tsconfig.app.json"
+      }
+    },
     "mongodb": {
       "type": "library",
       "root": "libs/mongodb",
