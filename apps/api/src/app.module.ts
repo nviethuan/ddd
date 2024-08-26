@@ -1,6 +1,6 @@
 import { MongodbModule } from '@app/mongodb';
 import { Module } from '@nestjs/common';
-import { Schema } from 'mongoose';
+import { AuthModule } from 'modules/auth/auth.module';
 
 export interface User {
   usn: string;
@@ -11,6 +11,7 @@ export interface User {
     MongodbModule.forRoot('mongodb://localhost:27017/', {
       dbName: 'abc',
     }),
+    AuthModule,
   ],
 })
 export class AppModule {}

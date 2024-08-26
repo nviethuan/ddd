@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+import { CqrsModule } from '@nestjs/cqrs';
+import { AuthController } from './infrastructure/controllers/auth.controller';
+import { AuthService } from './application/services/auth.service';
+import { LocalLoginCommandHandler } from './application/handlers/commands/localLogin.command';
+import { AuthControllerDocs } from './infrastructure/controllers/auth.controller.docs';
 
 @Module({
-  controllers: [AuthController],
-  providers: [AuthService],
+  imports: [CqrsModule],
+  controllers: [AuthControllerDocs],
+  providers: [AuthService, LocalLoginCommandHandler],
 })
 export class AuthModule {}

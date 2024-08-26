@@ -1,5 +1,5 @@
 const nodeExternals = require('webpack-node-externals');
-const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+const removeDecoratorsTransformer = require('typescript-remove-decorators-transformer').default;
 
 module.exports = function (options, webpack) {
   const config = {
@@ -20,9 +20,22 @@ module.exports = function (options, webpack) {
             {
               loader: 'ts-loader',
               options: {
-                transpileOnly: false
-              }
-            }
+                transpileOnly: false,
+                getCustomTransformers: () => ({
+                  before: [
+                    removeDecoratorsTransformer([
+                      'ApiTags',
+                      'ApiBody',
+                      'ApiParam',
+                      'ApiQuery',
+                      'ApiResponse',
+                      'ApiSecurity',
+                      'ApiUseTags',
+                    ]),
+                  ],
+                }),
+              },
+            },
           ],
           exclude: /node_modules/,
         },

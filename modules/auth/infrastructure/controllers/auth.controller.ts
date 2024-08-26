@@ -1,42 +1,14 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { CreateAuthDto } from 'modules/auth/application/dtos/create-auth.dto';
-import { UpdateAuthDto } from 'modules/auth/application/dtos/update-auth.dto';
-import { AuthService } from 'modules/auth/auth.service';
+import { Controller, Post, Body } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { LocalLoginDto } from 'modules/auth/application/dtos/local-login.dto';
+import { LocalLoginCommand } from 'modules/auth/domain/entities/localLoginCommand';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('login')
+  login(@Body() localLoginDto: LocalLoginDto) {
+    return this.commandBus.execute(new LocalLoginCommand(localLoginDto.email, localLoginDto.password));
   }
 }
