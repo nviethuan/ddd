@@ -7,7 +7,7 @@ import { AuthControllerDocs } from './infrastructure/controllers/auth.controller
 
 @Module({
   imports: [CqrsModule],
-  controllers: [AuthControllerDocs],
+  controllers: [...(process.env.NODE_ENV === 'production' ? [AuthControllerDocs] : [AuthController])],
   providers: [AuthService, LocalLoginCommandHandler],
 })
 export class AuthModule {}

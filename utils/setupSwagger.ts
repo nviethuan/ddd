@@ -3,12 +3,29 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
 import { basicAuth } from './basicAuth';
 import packageJson from '../package.json';
+import { readFileSync, writeFileSync } from 'fs';
 
-export function setupSwagger(app: INestApplication<any>) {
-  const config = new DocumentBuilder()
-    .setTitle('The InviteOut API docs')
-    .setDescription('The InviteOut API description')
-    .setVersion(packageJson.version)
+export interface SwaggerConfig {
+  app: INestApplication<any>;
+  title?: string;
+  description?: string;
+  version?: string;
+  auth?: {
+    user: string;
+    password: string;
+  };
+}
+
+export function setupSwagger({
+  app,
+  title = process.env.APP__NAME,
+  description = process.env.APP__DESCRIPTION,
+  version = packageJson.version,
+}: SwaggerConfig) {
+  let config = new DocumentBuilder()
+    .setTitle(title)
+    .setDescription(description)
+    .setVersion(version)
     .addBearerAuth({
       type: 'http',
       name: 'authorization',
@@ -17,7 +34,6 @@ export function setupSwagger(app: INestApplication<any>) {
       type: 'http',
       name: 'authorization',
     })
-    .addServer('http://localhost:3000', 'Local')
     .addCookieAuth('session')
     .addOAuth2({
       type: 'oauth2',
@@ -40,8 +56,12 @@ export function setupSwagger(app: INestApplication<any>) {
     .addSecurity('basic', {
       type: 'http',
       scheme: 'basic',
-    })
-    .build();
+    });
+
+  process.env.APP__DOCS_SERVER_URLS.split(',').forEach((server) => {
+    const [name, url] = server.split('|');
+    config = config.addServer(url, name);
+  });
 
   app.use(
     '/api/docs',
@@ -50,13 +70,13 @@ export function setupSwagger(app: INestApplication<any>) {
       password: process.env.DOCS_AUTH_PASS || '',
     }),
   );
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config.build());
+
   SwaggerModule.setup('docs', app, document, {
     useGlobalPrefix: true,
     jsonDocumentUrl: '/json',
     yamlDocumentUrl: '/yaml',
-    explorer: true, // input for the swagger ui
+    explorer: true, // input for the swagger userSchema
+    customCss: readFileSync('.swagger/dark.css', 'utf8'),
   });
-
-  return document;
 }

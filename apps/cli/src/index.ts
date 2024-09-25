@@ -1,9 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { CommandFactory } from 'nest-commander';
 import { CliModule } from './cli.module';
 
 export async function bootstrap() {
-  const app = await NestFactory.create(CliModule);
-  await app.listen(3000);
-
-  return app;
+  await CommandFactory.run(CliModule, ['warn', 'error', 'debug', 'log', 'verbose', 'fatal']);
 }
+
+// example: yarn cli basic hello

@@ -1,0 +1,127 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "The InviteOut API docs",
+    "description": "The InviteOut API description",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "authorization"
+      },
+      "basic": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "session"
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://example.com/auth",
+            "tokenUrl": "https://example.com/token",
+            "scopes": {
+              "read": "read",
+              "write": "write"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-TOKEN"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email of the user"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password of the user"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "The access token of the user"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "The refresh token of the user"
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken"
+        ]
+      }
+    }
+  }
+}

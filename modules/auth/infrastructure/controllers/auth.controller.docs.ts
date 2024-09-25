@@ -1,17 +1,15 @@
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthController } from './auth.controller';
-import { LocalLoginDto } from 'modules/auth/application/dtos/local-login.dto';
-import { Body, Controller, Post } from '@nestjs/common';
+import { LoginRequest } from 'modules/auth/application/dtos/local-login.dto';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Auth0Guard } from '@common/guards/auth0/auth0.guard';
 
 @ApiTags('Auth')
-// @Controller('auth')
+@Controller('auth')
 export class AuthControllerDocs extends AuthController {
-  @ApiBody({ type: LocalLoginDto })
-  @ApiOperation({ summary: 'Login' })
-  @ApiResponse({ status: 200, description: 'Login successful' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  login(@Body() localLoginDto: LocalLoginDto): Promise<any> {
-    return super.login(localLoginDto);
+  @Post('login')
+  @UseGuards(Auth0Guard)
+  async login(@Body() loginRequest: LoginRequest) {
+    return super.login(loginRequest);
   }
 }

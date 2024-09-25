@@ -4,7 +4,9 @@ import { LocalLoginCommand } from 'modules/auth/domain/entities/localLoginComman
 @Injectable()
 export class AuthService {
   login(loginDto: LocalLoginCommand) {
-    return 'This action adds a new auth';
+    return {
+      ping: 'pong',
+    };
   }
 
   logout() {
