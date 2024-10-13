@@ -33,11 +33,17 @@
       "@utils/*": [
         "utils/*"
       ],
-      "@app/mongodb": [
+      "@libs/mongodb": [
         "libs/mongodb/src"
       ],
-      "@app/mongodb/*": [
+      "@libs/mongodb/*": [
         "libs/mongodb/src/*"
+      ],
+      "@modules": [
+        "modules"
+      ],
+      "@modules/*": [
+        "modules/*"
       ]
     }
   }

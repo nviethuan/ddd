@@ -1,0 +1,9 @@
+export const {
+  APP__API_KEY = '',
+  APP__NAME = '',
+  APP__DOCS_DESCRIPTION = '',
+  APP__DOCS_SERVER_URLS = '',
+  MONGODB__DATABASE = '',
+  MONGODB__HOST = 'localhost:27017',
+  MONGODB__URI = 'mongodb://localhost:27017',
+} = process.env;

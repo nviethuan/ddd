@@ -1,34 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './application/dtos/create-user.dto';
-import { UpdateUserDto } from './application/dtos/update-user.dto';
+import { Login } from '@modules/user/domain/value-objects/login';
+import { LoginDto } from './../../domain/dtos/login.dto';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from '@common/guards/api-key/api-key.guard';
 
+@ApiTags('User')
 @Controller('user')
+@ApiBearerAuth()
+@ApiSecurity('api_key')
+@UseGuards(ApiKeyGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Post('login')
+  @ApiOperation({ summary: 'Login with local strategy username/password' })
+  @ApiResponse({ status: 200, description: 'Login successful' })
+  @ApiResponse({ status: 403, description: 'User or password incorrect' })
+  create(@Body() login: LoginDto) {
+    return this.commandBus.execute(new Login(login.username, login.password));
   }
 }

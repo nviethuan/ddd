@@ -73,15 +73,6 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mongodb/tsconfig.lib.json"
       }
-    },
-    "open-api": {
-      "type": "application",
-      "root": "apps/open-api",
-      "entryFile": "main",
-      "sourceRoot": "apps/open-api/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/open-api/tsconfig.app.json"
-      }
     }
   }
 }

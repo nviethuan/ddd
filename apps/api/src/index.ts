@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import compression from 'compression';
 import helmet from 'helmet';
 import { setupSwagger } from '@utils/setupSwagger';
+import { Logger } from 'nestjs-pino';
+import { APP__DOCS_DESCRIPTION, APP__NAME } from '@common/configs/envs';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -23,13 +25,15 @@ export async function bootstrap() {
     }),
   );
 
-  setupSwagger({ app, title: process.env.APP__NAME, description: process.env.APP__DOCS_DESCRIPTION });
+  const logger = app.get(Logger);
+
+  setupSwagger({ app, title: APP__NAME, description: APP__DOCS_DESCRIPTION });
 
   app.use(compression());
   app.use(helmet());
 
   await app.listen(3000);
-  Logger.debug(`App listening on http://localhost:3000`);
+  logger.debug(`App listening on http://localhost:3000`);
 
   return app;
 }
