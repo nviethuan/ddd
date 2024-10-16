@@ -1,6 +1,6 @@
-import { IBaseModelWithTimestamps, ID } from '@common/types/baseModel';
+import { BaseModelWithTimestamps, ID } from '@common/types/baseModel';
 
-export class User implements IBaseModelWithTimestamps {
+export class User implements BaseModelWithTimestamps {
   _id: ID;
   username: string;
   password: string;

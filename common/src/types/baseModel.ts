@@ -2,16 +2,16 @@ import { Types } from 'mongoose';
 
 export type ID = Types.ObjectId;
 
-export interface IBaseModel {
+export class BaseModel {
   _id?: ID;
 }
 
-export interface IBaseModelWithTimestamps extends IBaseModel {
+export class BaseModelWithTimestamps extends BaseModel {
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface ICommonModel extends IBaseModelWithTimestamps {
+export class CommonModel extends BaseModelWithTimestamps {
   updatedBy?: ID | any;
   createdBy?: ID | any;
   deletedAt?: Date;

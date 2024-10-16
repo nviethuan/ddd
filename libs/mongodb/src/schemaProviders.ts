@@ -5,6 +5,8 @@ import { Group } from '@modules/group/domain/entities/group.entity';
 import { groupSchema } from '@modules/group/infrastructure/schema/group.schema';
 import { UserGroup } from '@modules/user-group/domain/entities/user-group.entity';
 import { userGroupSchema } from '@modules/user-group/infrastructure/schema/user-group.schema';
+import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-token.entity';
+import { refreshTokenSchema } from '@modules/refresh-token/domain/schema/refresh-token.schema';
 
 export type SchemaProvider = {
   type: any;
@@ -17,5 +19,9 @@ export const schemaProviders: SchemaProvider[] = [
   {
     type: UserGroup,
     schema: userGroupSchema,
+  },
+  {
+    type: RefreshToken,
+    schema: refreshTokenSchema,
   },
 ];

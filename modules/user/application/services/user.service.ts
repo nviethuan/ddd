@@ -7,12 +7,16 @@ import { Model } from 'mongoose';
 import { Password } from 'modules/user/domain/value-objects/password';
 import jwt from 'jsonwebtoken';
 import { JWT__PRIVATE_KEY } from '@common/configs/envs';
+import { generateHashSha512 } from '@common/utils/hash';
+import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-token.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(User)
     private readonly userModel: Model<User>,
+    @Inject(RefreshToken)
+    private readonly refreshTokenModel: Model<RefreshToken>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -34,8 +38,19 @@ export class UserService {
       throw new BadRequestException('User or password incorrect');
     }
 
+    const refreshToken = generateHashSha512(user.id.toString());
+
+    await this.refreshTokenModel.create({
+      uid: user.id,
+      refreshToken,
+    });
+
     return {
-      accessToken: jwt.sign({ id: user.id }, JWT__PRIVATE_KEY, { expiresIn: '1h' }),
+      accessToken: jwt.sign({ id: user.id }, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
+        expiresIn: '1h',
+        algorithm: 'RS256',
+      }),
+      refreshToken,
     };
   }
 
