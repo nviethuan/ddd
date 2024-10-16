@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { UserCliService } from 'apps/cli/src/application/services/user/user.service';
 import { QuestionName } from 'apps/cli/src/utils/question-name';
 import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
-import { CommandRunner, InquirerService, Option, Question, SubCommand } from 'nest-commander';
+import { CommandRunner, InquirerService, SubCommand } from 'nest-commander';
 
 @SubCommand({ name: 'create', aliases: ['c'], description: 'Create a new user' })
 export class CreateUserCmd extends CommandRunner {
@@ -25,21 +25,5 @@ export class CreateUserCmd extends CommandRunner {
       this.logService.error(error);
       process.exit(1);
     }
-  }
-
-  @Option({
-    flags: '-s, --shell <shell>',
-    description: 'A different shell to spawn than the default',
-  })
-  parseShell(val: string) {
-    return val;
-  }
-
-  @Question({
-    message: 'What task would you like to execute?',
-    name: 'task',
-  })
-  parseTask(val: string) {
-    return val;
   }
 }

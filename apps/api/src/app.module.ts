@@ -21,7 +21,7 @@ import { UserModule } from '@modules/user/user.module';
     MongodbModule.forRoot(MONGODB__URI, {
       dbName: MONGODB__DATABASE,
     }),
-    AuthModule,
+    // AuthModule,
     UserModule,
   ],
 })

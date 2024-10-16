@@ -1,4 +1,5 @@
 export const {
+  PORT = 3000,
   APP__API_KEY = '',
   APP__NAME = '',
   APP__DOCS_DESCRIPTION = '',
@@ -6,4 +7,6 @@ export const {
   MONGODB__DATABASE = '',
   MONGODB__HOST = 'localhost:27017',
   MONGODB__URI = 'mongodb://localhost:27017',
+  JWT__PRIVATE_KEY = '',
+  JWT__PUBLIC_KEY = '',
 } = process.env;

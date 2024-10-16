@@ -1,15 +1,10 @@
 const nodeExternals = require('webpack-node-externals');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
 
 const swcDefaultConfig = require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory({
   sourceMap: false,
   
 }).swcOptions;
-
-console.log('--------------------------');
-console.log(process.env.NODE_ENV);
-console.log('--------------------------');
 
 module.exports = function (options, _webpack) {
   const config = {
@@ -29,19 +24,14 @@ module.exports = function (options, _webpack) {
         },
       ],
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      }),
-    ],
     optimization: {
       minimize: true,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: true, // Loại bỏ console logs
-              dead_code: true, // Loại bỏ mã không được sử dụng
+              drop_console: true,
+              dead_code: true,
               conditionals: true,
               unused: true,
               drop_debugger: true,
@@ -51,6 +41,8 @@ module.exports = function (options, _webpack) {
               pure_getters: true,
               sequences: true,
               side_effects: true,
+              keep_fnames: true,
+              keep_classnames: true,
             },
             mangle: true,
           },

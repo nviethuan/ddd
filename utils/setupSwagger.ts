@@ -4,6 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import { basicAuth } from './basicAuth';
 import packageJson from '../package.json';
 import { readFileSync, writeFileSync } from 'fs';
+import { APP__API_KEY } from '@common/configs/envs';
 
 export interface SwaggerConfig {
   app: INestApplication<any>;
@@ -79,9 +80,9 @@ export function setupSwagger({
 
   SwaggerModule.setup('docs', app, document, {
     useGlobalPrefix: true,
-    jsonDocumentUrl: '/json',
-    yamlDocumentUrl: '/yaml',
-    explorer: true, // input for the swagger userSchema
+    // jsonDocumentUrl: '/json',
+    // yamlDocumentUrl: '/yaml',
+    // explorer: true, // input for the swagger userSchema
     customCss: readFileSync('.swagger/dark.css', 'utf8'),
   });
 }

@@ -5,10 +5,11 @@ import compression from 'compression';
 import helmet from 'helmet';
 import { setupSwagger } from '@utils/setupSwagger';
 import { Logger } from 'nestjs-pino';
-import { APP__DOCS_DESCRIPTION, APP__NAME } from '@common/configs/envs';
+import { APP__DOCS_DESCRIPTION, APP__NAME, PORT } from '@common/configs/envs';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
     bodyParser: true,
     rawBody: true,
   });
@@ -32,8 +33,8 @@ export async function bootstrap() {
   app.use(compression());
   app.use(helmet());
 
-  await app.listen(3000);
-  logger.debug(`App listening on http://localhost:3000`);
+  await app.listen(PORT);
+  logger.debug(`App listening on http://localhost:${PORT}`);
 
   return app;
 }

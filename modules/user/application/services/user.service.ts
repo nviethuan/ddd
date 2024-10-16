@@ -6,6 +6,7 @@ import { User } from 'modules/user/domain/entities/user.entity';
 import { Model } from 'mongoose';
 import { Password } from 'modules/user/domain/value-objects/password';
 import jwt from 'jsonwebtoken';
+import { JWT__PRIVATE_KEY } from '@common/configs/envs';
 
 @Injectable()
 export class UserService {
@@ -34,7 +35,7 @@ export class UserService {
     }
 
     return {
-      accessToken: jwt.sign({ id: user.id }, '1234567', { expiresIn: '1h' }),
+      accessToken: jwt.sign({ id: user.id }, JWT__PRIVATE_KEY, { expiresIn: '1h' }),
     };
   }
 

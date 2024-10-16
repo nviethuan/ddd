@@ -15,6 +15,7 @@ import { ForceChangePasswordCmd } from './infrastructure/commands/user/force-cha
 import { UserGroupModule } from 'modules/user-group/user-group.module';
 import { MongodbModule } from '@libs/mongodb';
 import { LoggerModule } from 'nestjs-pino';
+import { KeyGeneratorCmd } from './infrastructure/commands/key-gen/key-generator.cmd';
 
 @Module({
   imports: [
@@ -52,6 +53,8 @@ import { LoggerModule } from 'nestjs-pino';
 
     CreateUserQuestions,
     ForceChangePasswordQuestions,
+
+    KeyGeneratorCmd,
   ],
   controllers: [GroupCmd],
 })
