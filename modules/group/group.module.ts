@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GroupController } from './infrastructure/controllers/group.controller';
 import { GroupService } from './application/services/group.service';
 import { Group } from './domain/entities/group.entity';
-import { groupSchema } from './infrastructure/schema/group.schema';
+import { groupSchema } from './domain/schema/group.schema';
 
 @Module({
   controllers: [GroupController],
