@@ -9,4 +9,5 @@ export const {
   MONGODB__URI = 'mongodb://localhost:27017',
   JWT__PRIVATE_KEY = '',
   JWT__PUBLIC_KEY = '',
+  USER_GROUPS__ENCRYPTION_KEY = '',
 } = process.env;

@@ -11,6 +11,9 @@ import { generateHashSha512 } from '@common/utils/hash';
 import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-token.entity';
 import { Group } from '@modules/group/domain/entities/group.entity';
 import { UserGroup } from '@modules/user-group/domain/entities/user-group.entity';
+import { Collections } from '@common/constants/collections';
+import { toFieldName } from '@common/utils/toFieldName';
+import { encode } from '@common/utils/security';
 
 @Injectable()
 export class UserService {
@@ -45,11 +48,19 @@ export class UserService {
       },
       {
         $lookup: {
-          from: 'usergroups',
+          from: Collections.USER_GROUP,
           localField: '_id',
           foreignField: 'user',
-          as: 'groups',
-          pipeline: [{ $lookup: { from: 'groups', localField: 'group', foreignField: '_id', as: 'group' } }],
+          as: Collections.USER_GROUP,
+          pipeline: [
+            { $lookup: { from: Collections.GROUP, localField: 'group', foreignField: '_id', as: Collections.GROUP } },
+            {
+              $unwind: {
+                path: toFieldName(Collections.GROUP),
+                preserveNullAndEmptyArrays: false,
+              },
+            },
+          ],
         },
       },
     ]);
@@ -64,20 +75,38 @@ export class UserService {
       throw new BadRequestException('User or password incorrect');
     }
 
-    const refreshToken = generateHashSha512(user.id.toString());
+    const refreshToken = generateHashSha512(user._id.toString());
 
     await this.refreshTokenModel.create({
-      uid: user.id,
+      uid: user._id,
       refreshToken,
     });
 
     delete user.password;
 
     return {
-      accessToken: jwt.sign({ ...user.toJSON() }, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
-        expiresIn: '1h',
-        algorithm: 'RS256',
-      }),
+      accessToken: jwt.sign(
+        {
+          _id: user._id.toString(),
+          username: user.username,
+          gs: encode(
+            JSON.stringify(
+              user[Collections.USER_GROUP].map((ug: UserGroup) => {
+                const group = ug[Collections.GROUP];
+                return {
+                  _id: group._id.toString(),
+                  name: group.name,
+                };
+              }),
+            ),
+          ),
+        },
+        Buffer.from(JWT__PRIVATE_KEY, 'base64'),
+        {
+          expiresIn: '1h',
+          algorithm: 'RS256',
+        },
+      ),
       refreshToken,
     };
   }
