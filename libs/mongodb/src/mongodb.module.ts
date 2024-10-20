@@ -12,9 +12,9 @@ export class MongodbModule {
       },
     ];
 
-    const models: Provider[] = schemaProviders.map(({ type, schema }) => ({
+    const models: Provider[] = schemaProviders.map(({ type, schema, collection }) => ({
       provide: type,
-      useFactory: () => model(type.name, schema),
+      useFactory: () => model(collection, schema, collection),
     }));
 
     const providers = connProviders.concat(models);

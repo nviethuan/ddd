@@ -3,20 +3,28 @@ import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
 import { Login } from '@modules/user/domain/value-objects/login';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'modules/user/domain/entities/user.entity';
-import { Model } from 'mongoose';
+import { Model, Mongoose } from 'mongoose';
 import { Password } from 'modules/user/domain/value-objects/password';
 import jwt from 'jsonwebtoken';
 import { JWT__PRIVATE_KEY } from '@common/configs/envs';
 import { generateHashSha512 } from '@common/utils/hash';
 import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-token.entity';
+import { Group } from '@modules/group/domain/entities/group.entity';
+import { UserGroup } from '@modules/user-group/domain/entities/user-group.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(User)
     private readonly userModel: Model<User>,
+    @Inject(Group)
+    private readonly groupModel: Model<Group>,
+    @Inject(UserGroup)
+    private readonly userGroupModel: Model<UserGroup>,
     @Inject(RefreshToken)
     private readonly refreshTokenModel: Model<RefreshToken>,
+    @Inject(Mongoose)
+    private readonly connection: Mongoose,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -26,7 +34,25 @@ export class UserService {
   }
 
   async login(login: Login) {
-    const user = await this.userModel.findOne({ username: login.username });
+    const [user] = await this.userModel.aggregate([
+      {
+        $match: {
+          username: login.username,
+        },
+      },
+      {
+        $limit: 1,
+      },
+      {
+        $lookup: {
+          from: 'usergroups',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'groups',
+          pipeline: [{ $lookup: { from: 'groups', localField: 'group', foreignField: '_id', as: 'group' } }],
+        },
+      },
+    ]);
 
     if (!user) {
       throw new BadRequestException('User or password incorrect');
@@ -45,8 +71,10 @@ export class UserService {
       refreshToken,
     });
 
+    delete user.password;
+
     return {
-      accessToken: jwt.sign({ id: user.id }, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
+      accessToken: jwt.sign({ ...user.toJSON() }, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
         expiresIn: '1h',
         algorithm: 'RS256',
       }),
@@ -60,5 +88,70 @@ export class UserService {
 
   findByUsername(username: string) {
     return this.userModel.findOne({ username });
+  }
+
+  /**
+   * Create a system user
+   * full access to the system
+   * group: admin
+   * permission: full access
+   * @param createUserDto
+   * @returns
+   */
+  async createSystemUser(createUserDto: CreateUserDto) {
+    const sesstion = await this.connection.startSession();
+
+    sesstion.startTransaction();
+
+    try {
+      const [user] = await this.userModel.create(
+        [
+          {
+            email: createUserDto.email,
+            username: createUserDto.username,
+            password: new Password(createUserDto.password).hash(),
+            createdBy: null,
+            updatedBy: null,
+            fName: createUserDto.fName,
+            lName: createUserDto.lName,
+            locale: createUserDto.locale,
+            phone: createUserDto.phone,
+            isActive: true,
+          },
+        ],
+        { session: sesstion },
+      );
+
+      const [group] = await this.groupModel.create(
+        [
+          {
+            name: createUserDto.username,
+            description: 'CLI',
+            createdBy: user.id,
+            updatedBy: user.id,
+          },
+        ],
+        { session: sesstion },
+      );
+
+      await this.userGroupModel.create(
+        [
+          {
+            user: user.id,
+            group: group.id,
+            createdBy: user.id,
+            updatedBy: user.id,
+          },
+        ],
+        { session: sesstion },
+      );
+
+      await sesstion.commitTransaction();
+
+      return user;
+    } catch (error) {
+      await sesstion.abortTransaction();
+      throw error;
+    }
   }
 }

@@ -8,7 +8,7 @@ import { User } from '@modules/user/domain/entities/user.entity';
 import { Auth0Guard } from '@common/guards/auth0/auth0.guard';
 
 @ApiTags('User')
-@Controller('user')
+@Controller('users')
 @ApiSecurity('api_key')
 @UseGuards(ApiKeyGuard)
 export class UserController {

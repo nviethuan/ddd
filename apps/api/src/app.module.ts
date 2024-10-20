@@ -1,9 +1,9 @@
 import { MongodbModule } from '@libs/mongodb';
 import { Module } from '@nestjs/common';
-import { AuthModule } from 'modules/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
 import { MONGODB__DATABASE, MONGODB__URI } from 'common/src/configs/envs';
 import { UserModule } from '@modules/user/user.module';
+import { WalletModule } from '@modules/wallet/wallet.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { UserModule } from '@modules/user/user.module';
     }),
     // AuthModule,
     UserModule,
+    WalletModule,
   ],
 })
 export class AppModule {}

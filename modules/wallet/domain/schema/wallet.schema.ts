@@ -1,9 +1,32 @@
+import { Group } from '@modules/group/domain/entities/group.entity';
+import { User } from '@modules/user/domain/entities/user.entity';
 import { Schema } from 'mongoose';
 
-export const walletSchema = new Schema({
-  symbol: String,
-  base: Number,
-  quote: Number,
-  buyPrice: Number,
-  sellPrice: Number,
-});
+export const walletSchema = new Schema(
+  {
+    symbol: String,
+    base: Number,
+    quote: Number,
+    buyPrice: Number,
+    sellPrice: Number,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: User.name,
+    },
+    group: {
+      type: Schema.Types.ObjectId,
+      ref: Group.name,
+    },
+    permission: [Number],
+  },
+  {
+    timestamps: true,
+  },
+);
+
+walletSchema.index(
+  { symbol: 1, base: 1, onwer: 1, group: 1 },
+  { unique: true, name: 'unique-symbol-base-owner-group_2024-10-17' },
+);
+walletSchema.index({ base: 1, quote: 1, owner: 1 }, { name: 'unique-base-quote-owner_2024-10-17' });
+walletSchema.index({ owner: 1 }, { unique: true, name: 'unique-owner_2024-10-17' });

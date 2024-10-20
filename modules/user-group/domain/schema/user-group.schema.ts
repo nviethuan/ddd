@@ -2,11 +2,11 @@ import { Schema } from 'mongoose';
 
 const userGroupSchema = new Schema(
   {
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    groupId: {
+    group: {
       type: Schema.Types.ObjectId,
       ref: 'Group',
     },

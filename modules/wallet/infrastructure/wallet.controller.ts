@@ -1,9 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { WalletService } from '../application/services/wallet.service';
 import { CreateWalletDto } from '../domain/dto/create-wallet.dto';
 import { UpdateWalletDto } from '../domain/dto/update-wallet.dto';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from '@common/guards/api-key/api-key.guard';
 
-@Controller('wallet')
+@Controller('wallets')
+@ApiTags('Wallet')
+@ApiSecurity('api_key')
+@UseGuards(ApiKeyGuard)
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
