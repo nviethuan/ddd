@@ -9,30 +9,30 @@ import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-tok
 import { refreshTokenSchema } from '@modules/refresh-token/domain/schema/refresh-token.schema';
 import { Wallet } from '@modules/wallet/domain/entities/wallet.entity';
 import { walletSchema } from '@modules/wallet/domain/schema/wallet.schema';
-import { Collections } from '@common/constants/collections';
+import { Collection } from '@common/constants/collections';
 
 export type SchemaProvider = {
   type: any;
-  collection: Collections;
+  collection: Collection;
   schema: Schema;
 };
 
 export const schemaProviders: SchemaProvider[] = [
-  { type: User, schema: userSchema, collection: Collections.USER },
-  { type: Group, schema: groupSchema, collection: Collections.GROUP },
+  { type: User, schema: userSchema, collection: Collection.USER },
+  { type: Group, schema: groupSchema, collection: Collection.GROUP },
   {
     type: UserGroup,
     schema: userGroupSchema,
-    collection: Collections.USER_GROUP,
+    collection: Collection.USER_GROUP,
   },
   {
     type: RefreshToken,
     schema: refreshTokenSchema,
-    collection: Collections.REFRESH_TOKEN,
+    collection: Collection.REFRESH_TOKEN,
   },
   {
     type: Wallet,
     schema: walletSchema,
-    collection: Collections.WALLET,
+    collection: Collection.WALLET,
   },
 ];

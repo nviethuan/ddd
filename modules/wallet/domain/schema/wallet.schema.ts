@@ -1,5 +1,4 @@
-import { Group } from '@modules/group/domain/entities/group.entity';
-import { User } from '@modules/user/domain/entities/user.entity';
+import { Collection } from '@common/constants/collections';
 import { Schema } from 'mongoose';
 
 export const walletSchema = new Schema(
@@ -11,11 +10,11 @@ export const walletSchema = new Schema(
     sellPrice: Number,
     owner: {
       type: Schema.Types.ObjectId,
-      ref: User.name,
+      ref: Collection.USER,
     },
     group: {
       type: Schema.Types.ObjectId,
-      ref: Group.name,
+      ref: Collection.GROUP,
     },
     permission: [Number],
   },

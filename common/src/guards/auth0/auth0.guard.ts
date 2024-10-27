@@ -2,8 +2,9 @@ import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/commo
 import { Observable } from 'rxjs';
 import jwt from 'jsonwebtoken';
 import { JWT__PUBLIC_KEY } from '@common/configs/envs';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import { User } from '@modules/user/domain/entities/user.entity';
+import { decode } from '@common/utils/security';
 
 @Injectable()
 export class Auth0Guard implements CanActivate {
@@ -20,14 +21,12 @@ export class Auth0Guard implements CanActivate {
     }
     const token = authHeader.split(' ')[1];
     try {
-      console.log(JWT__PUBLIC_KEY);
-
       const decoded: any = jwt.verify(token, Buffer.from(JWT__PUBLIC_KEY, 'base64'), {
         algorithms: ['RS256'],
       });
 
       if (decoded) {
-        const user = await this.userModel.findById(decoded.id).select('-password');
+        const user = await this.userModel.findById(decoded._id).select('-password');
 
         request.user = user;
         return true;

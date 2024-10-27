@@ -1,4 +1,4 @@
-export enum Collections {
+export enum Collection {
   GROUP = 'groups',
   REFRESH_TOKEN = 'refresh_tokens',
   USER = 'users',

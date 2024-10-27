@@ -11,7 +11,7 @@ import { generateHashSha512 } from '@common/utils/hash';
 import { RefreshToken } from '@modules/refresh-token/domain/entities/refresh-token.entity';
 import { Group } from '@modules/group/domain/entities/group.entity';
 import { UserGroup } from '@modules/user-group/domain/entities/user-group.entity';
-import { Collections } from '@common/constants/collections';
+import { Collection } from '@common/constants/collections';
 import { toFieldName } from '@common/utils/toFieldName';
 import { encode } from '@common/utils/security';
 
@@ -48,15 +48,15 @@ export class UserService {
       },
       {
         $lookup: {
-          from: Collections.USER_GROUP,
+          from: Collection.USER_GROUP,
           localField: '_id',
           foreignField: 'user',
-          as: Collections.USER_GROUP,
+          as: Collection.USER_GROUP,
           pipeline: [
-            { $lookup: { from: Collections.GROUP, localField: 'group', foreignField: '_id', as: Collections.GROUP } },
+            { $lookup: { from: Collection.GROUP, localField: 'group', foreignField: '_id', as: Collection.GROUP } },
             {
               $unwind: {
-                path: toFieldName(Collections.GROUP),
+                path: toFieldName(Collection.GROUP),
                 preserveNullAndEmptyArrays: false,
               },
             },
@@ -91,8 +91,8 @@ export class UserService {
           username: user.username,
           gs: encode(
             JSON.stringify(
-              user[Collections.USER_GROUP].map((ug: UserGroup) => {
-                const group = ug[Collections.GROUP];
+              user[Collection.USER_GROUP].map((ug: UserGroup) => {
+                const group = ug[Collection.GROUP];
                 return {
                   _id: group._id.toString(),
                   name: group.name,
