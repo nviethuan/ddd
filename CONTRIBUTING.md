@@ -20,7 +20,7 @@ We greatly welcome your contributions to the documentation of this project. Belo
       - Add new in the `apps` directory: `npx nest g app <app-name>`.
 
     b. Common
-      - Add new in the `common` directory: `npx nest g class|decorator|pipe|filter|guard|interceptor|middleware|module|service|controller|exception|filter|interceptor|pipe|resolver infrastructure/<name>`, when you run the command, the library schematic prompts you for a question:
+      - Add new in the `common` directory: `npx nest g class|decorator|pipe|filter|guard|interceptor|middleware|module|service|controller|exception|resolver infrastructure/<name>`, when you run the command, the library schematic prompts you for a question:
 
         ```
           ? Which project would you like to generate to? 

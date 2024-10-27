@@ -14,6 +14,8 @@ import { UserGroup } from '@modules/user-group/domain/entities/user-group.entity
 import { Collection } from '@common/constants/collections';
 import { toFieldName } from '@common/utils/toFieldName';
 import { encode } from '@common/utils/security';
+import { sleep } from '@common/utils/sleep';
+import KeyvRedis from '@keyv/redis';
 
 @Injectable()
 export class UserService {
@@ -28,6 +30,8 @@ export class UserService {
     private readonly refreshTokenModel: Model<RefreshToken>,
     @Inject(Mongoose)
     private readonly connection: Mongoose,
+    @Inject(KeyvRedis)
+    private readonly redis: KeyvRedis,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -84,29 +88,32 @@ export class UserService {
 
     delete user.password;
 
-    return {
-      accessToken: jwt.sign(
-        {
-          _id: user._id.toString(),
-          username: user.username,
-          gs: encode(
-            JSON.stringify(
-              user[Collection.USER_GROUP].map((ug: UserGroup) => {
-                const group = ug[Collection.GROUP];
-                return {
-                  _id: group._id.toString(),
-                  name: group.name,
-                };
-              }),
-            ),
-          ),
-        },
-        Buffer.from(JWT__PRIVATE_KEY, 'base64'),
-        {
-          expiresIn: '1h',
-          algorithm: 'RS256',
-        },
+    const payload = {
+      _id: user._id.toString(),
+      username: user.username,
+      gs: encode(
+        JSON.stringify(
+          user[Collection.USER_GROUP].map((ug: UserGroup) => {
+            const group = ug[Collection.GROUP];
+            return {
+              _id: group._id.toString(),
+              name: group.name,
+            };
+          }),
+        ),
       ),
+    };
+
+    this.redis.namespace = 'auth';
+    await this.redis.set(refreshToken, JSON.stringify(payload), 2_592_000_000); // 2_592_000_000 is 30 days in milliseconds
+
+    await sleep(1000);
+
+    return {
+      accessToken: jwt.sign(payload, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
+        expiresIn: '1h',
+        algorithm: 'RS256',
+      }),
       refreshToken,
     };
   }

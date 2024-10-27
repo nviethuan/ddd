@@ -46,6 +46,12 @@
       ],
       "@modules/*": [
         "modules/*"
+      ],
+      "@app/redis-cache": [
+        "libs/redis-cache/src"
+      ],
+      "@app/redis-cache/*": [
+        "libs/redis-cache/src/*"
       ]
     }
   }
