@@ -1,3 +1,4 @@
+import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
 import { generateKeyPairSync } from 'crypto';
 import { writeFile, writeFileSync } from 'fs';
 import { Command, CommandRunner, Option } from 'nest-commander';
@@ -46,8 +47,8 @@ export class KeyGeneratorCmd extends CommandRunner {
       }),
     ]);
 
-    this.logger.log(`JWT__PRIVATE_KEY="${Buffer.from(keyPair.privateKey).toString('base64')}"`);
-    this.logger.log(`JWT__PUBLIC_KEY="${Buffer.from(keyPair.publicKey).toString('base64')}"`);
+    this.logger.log(`JWT__PRIVATE_KEY=${Buffer.from(keyPair.privateKey).toString(BUFFER_ENCODING)}`);
+    this.logger.log(`JWT__PUBLIC_KEY=${Buffer.from(keyPair.publicKey).toString(BUFFER_ENCODING)}`);
 
     process.exit(0);
   }

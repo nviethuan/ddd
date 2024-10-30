@@ -4,12 +4,14 @@ import { UpdateWalletDto } from '../../domain/dto/update-wallet.dto';
 
 @Injectable()
 export class WalletService {
+  constructor() {}
+
   create(createWalletDto: CreateWalletDto) {
     return 'This action adds a new wallet';
   }
 
-  findAll() {
-    return `This action returns all wallet`;
+  async findAll() {
+    return [];
   }
 
   findOne(id: number) {

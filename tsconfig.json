@@ -52,7 +52,7 @@
       ],
       "@app/redis-cache/*": [
         "libs/redis-cache/src/*"
-      ]
+      ],
     }
   }
 }

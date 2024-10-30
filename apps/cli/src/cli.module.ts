@@ -16,6 +16,13 @@ import { UserGroupModule } from 'modules/user-group/user-group.module';
 import { MongodbModule } from '@libs/mongodb';
 import { LoggerModule } from 'nestjs-pino';
 import { KeyGeneratorCmd } from './infrastructure/commands/key-gen/key-generator.cmd';
+import { RedisCacheModule } from '@app/redis-cache';
+import {
+  KEYV__REDIS__HOST,
+  KEYV__REDIS__PASSWORD,
+  KEYV__REDIS__PORT,
+  KEYV__REDIS__USERNAME,
+} from '@common/configs/envs';
 
 @Module({
   imports: [
@@ -32,6 +39,12 @@ import { KeyGeneratorCmd } from './infrastructure/commands/key-gen/key-generator
     }),
     MongodbModule.forRoot(process.env.MONGODB__URI, {
       dbName: process.env.MONGODB__DATABASE,
+    }),
+    RedisCacheModule.forRoot({
+      host: KEYV__REDIS__HOST,
+      port: KEYV__REDIS__PORT,
+      username: KEYV__REDIS__USERNAME,
+      password: KEYV__REDIS__PASSWORD,
     }),
     GroupModule,
     UserModule,

@@ -1,4 +1,5 @@
 import { JWT__PRIVATE_KEY } from '@common/configs/envs';
+import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
 import { generateHashSha512 } from '@common/utils/hash';
 import KeyvRedis from '@keyv/redis';
 import { RefreshToken } from '@modules/auth/domain/object-values/refresh-token';
@@ -24,11 +25,11 @@ export class AuthService {
 
     await this.redis.delete(refreshToken.refreshToken);
 
-    const user = JSON.parse(data);
+    const user = JSON.parse(data as string);
 
     const newRefreshToken = generateHashSha512(user._id.toString());
 
-    const accessToken = jwt.sign(user, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
+    const accessToken = jwt.sign(user, Buffer.from(JWT__PRIVATE_KEY, BUFFER_ENCODING), {
       expiresIn: '1h',
       algorithm: 'RS256',
     });

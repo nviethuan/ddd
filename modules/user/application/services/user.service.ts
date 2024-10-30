@@ -16,6 +16,7 @@ import { toFieldName } from '@common/utils/toFieldName';
 import { encode } from '@common/utils/security';
 import { sleep } from '@common/utils/sleep';
 import KeyvRedis from '@keyv/redis';
+import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
 
 @Injectable()
 export class UserService {
@@ -110,7 +111,7 @@ export class UserService {
     await sleep(1000);
 
     return {
-      accessToken: jwt.sign(payload, Buffer.from(JWT__PRIVATE_KEY, 'base64'), {
+      accessToken: jwt.sign(payload, Buffer.from(JWT__PRIVATE_KEY, BUFFER_ENCODING), {
         expiresIn: '1h',
         algorithm: 'RS256',
       }),
