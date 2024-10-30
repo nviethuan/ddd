@@ -3,7 +3,8 @@ import { Schema } from 'mongoose';
 
 export const walletSchema = new Schema(
   {
-    symbol: String,
+    symbolBase: String,
+    symbolQuote: String,
     base: Number,
     quote: Number,
     buyPrice: Number,

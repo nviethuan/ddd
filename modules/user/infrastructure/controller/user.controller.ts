@@ -3,9 +3,9 @@ import { LoginDto } from './../../domain/dtos/login.dto';
 import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from '@common/guards/api-key/api-key.guard';
+import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
 import { User } from '@modules/user/domain/entities/user.entity';
-import { Auth0Guard } from '@common/guards/auth0/auth0.guard';
+import { Auth0Guard } from '@common/infrastructure/guards/auth0/auth0.guard';
 
 @ApiTags('User')
 @Controller('users')

@@ -9,6 +9,8 @@ export const PERMISSIONS_MAP = {
   x: 1,
 };
 
+export const DEFAULT_PERMISSIONS = [6, 4, 4];
+
 /**
  * Extracts the permission string to a number array
  * @param permissionString - The permission string to extract
