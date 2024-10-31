@@ -8,11 +8,18 @@ import {
   KEYV__REDIS__USERNAME,
   MONGODB__DATABASE,
   MONGODB__URI,
+  REDIS__CLIENT__PASSWORD,
+  REDIS__CLIENT__USERNAME,
+  REDIS__CLIENT__PORT,
+  REDIS__CLIENT__HOST,
 } from 'common/src/configs/envs';
 import { UserModule } from '@modules/user/user.module';
 import { WalletModule } from '@modules/wallet/wallet.module';
 import { RedisCacheModule } from '@app/redis-cache';
 import { AuthModule } from '@modules/auth/auth.module';
+import { RedisClientModule } from '@app/redis-client';
+import { BuyModule } from '@modules/buy/buy.module';
+import { BinanceSubModule } from '@modules/binance-sub/binance-sub.module';
 
 @Module({
   imports: [
@@ -33,13 +40,21 @@ import { AuthModule } from '@modules/auth/auth.module';
     }),
     RedisCacheModule.forRoot({
       host: KEYV__REDIS__HOST,
-      port: KEYV__REDIS__PORT,
+      port: Number(KEYV__REDIS__PORT),
       username: KEYV__REDIS__USERNAME,
       password: KEYV__REDIS__PASSWORD,
     }),
+    RedisClientModule.forRoot({
+      host: REDIS__CLIENT__HOST,
+      port: Number(REDIS__CLIENT__PORT),
+      username: REDIS__CLIENT__USERNAME,
+      password: REDIS__CLIENT__PASSWORD,
+    }),
+    BinanceSubModule,
     AuthModule,
     UserModule,
     WalletModule,
+    BuyModule,
   ],
 })
 export class AppModule {}

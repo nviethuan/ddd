@@ -23,4 +23,9 @@ export const {
   KEYV__REDIS__PORT = '',
   KEYV__REDIS__USERNAME = '',
   KEYV__REDIS__PASSWORD = '',
+  REDIS__CLIENT__HOST = '',
+  REDIS__CLIENT__PORT = '',
+  REDIS__CLIENT__USERNAME = '',
+  REDIS__CLIENT__PASSWORD = '',
+  BINANCE__WS_URL = '',
 } = process.env;

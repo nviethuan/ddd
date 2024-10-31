@@ -3,7 +3,7 @@ import KeyvRedis from '@keyv/redis';
 
 export type RedisCacheOptions = {
   host: string;
-  port: string;
+  port: number;
   username: string;
   password: string;
 };

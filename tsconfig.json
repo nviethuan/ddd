@@ -53,6 +53,12 @@
       "@app/redis-cache/*": [
         "libs/redis-cache/src/*"
       ],
+      "@app/redis-client": [
+        "libs/redis-client/src"
+      ],
+      "@app/redis-client/*": [
+        "libs/redis-client/src/*"
+      ]
     }
   }
 }
