@@ -1,4 +1,4 @@
 import { webpackHRMWrapper } from '@utils/hrm';
-import { bootstrap } from '.';
+import { bootstrap } from './fastify.app';
 
 webpackHRMWrapper(bootstrap);

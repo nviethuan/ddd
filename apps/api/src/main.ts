@@ -1,4 +1,4 @@
 import { clusterizer } from '@utils/clusterizer';
-import { bootstrap } from '.';
+import { bootstrap } from './fastify.app';
 
 clusterizer(bootstrap);

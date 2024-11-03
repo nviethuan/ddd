@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+option go_package = "prosessor/proto";
+
+package calculate;
+
+service Calculate {
+  rpc Calculate (CalculateRequest) returns (CalculateReply) {}
+}
+
+message CalculateRequest {
+  string symbol = 1;
+  double currentPrice = 2;
+  double walletBaseBalance = 3;
+  double walletQuoteBalance = 4;
+  repeated double priceHistories = 5 [packed=true];
+  repeated double purchasePowers = 6 [packed=true];
+  repeated double sellPowers = 7 [packed=true];
+}
+
+message CalculateReply {
+  bool shouldBuy = 1;
+  bool shouldSell = 2;
+}

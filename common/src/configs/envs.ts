@@ -27,5 +27,7 @@ export const {
   REDIS__CLIENT__PORT = '',
   REDIS__CLIENT__USERNAME = '',
   REDIS__CLIENT__PASSWORD = '',
-  BINANCE__WS_URL = '',
+  BINANCE__NETWORK = 'testnet',
+  BINANCE__API_KEY = '',
+  BINANCE__API_SECRET = '',
 } = process.env;

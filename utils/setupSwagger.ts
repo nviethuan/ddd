@@ -1,10 +1,9 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { INestApplication } from '@nestjs/common';
-import { basicAuth } from './basicAuth';
+import basicAuth from './basic-auth';
 import packageJson from '../package.json';
-import { readFileSync, writeFileSync } from 'fs';
-import { APP__API_KEY } from '@common/configs/envs';
+import { readFileSync } from 'fs';
 
 export interface SwaggerConfig {
   app: INestApplication<any>;
@@ -17,12 +16,15 @@ export interface SwaggerConfig {
   };
 }
 
-export function setupSwagger({
-  app,
-  title = process.env.APP__NAME,
-  description = process.env.APP__DESCRIPTION,
-  version = packageJson.version,
-}: SwaggerConfig) {
+export function setupSwagger(
+  appType: 'express' | 'fastify',
+  {
+    app,
+    title = process.env.APP__NAME,
+    description = process.env.APP__DESCRIPTION,
+    version = packageJson.version,
+  }: SwaggerConfig,
+) {
   let config = new DocumentBuilder()
     .setTitle(title)
     .setDescription(description)
@@ -71,7 +73,7 @@ export function setupSwagger({
 
   app.use(
     '/api/docs',
-    basicAuth({
+    basicAuth[appType].basicAuth({
       user: process.env.DOCS_AUTH_USER || '',
       password: process.env.DOCS_AUTH_PASS || '',
     }),

@@ -1,0 +1,17 @@
+services:
+  mongo-setup:
+    container_name: mongo-setup
+    image: mongo:${MONGO_TAG:-latest}
+    restart: on-failure
+    networks:
+      - mongo-replica-set_mongo-network
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "/scripts/setup.sh" ] # Make sure this file exists (see below for the setup.sh)
+    env_file:
+      - .env
+
+networks:
+  mongo-replica-set_mongo-network:
+    driver: bridge
+    external: true

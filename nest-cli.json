@@ -39,7 +39,10 @@
       "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json",
         "webpackConfigPath": ".webpack/webpack-swc.config.js",
-        "typeCheck": true
+        "typeCheck": true,
+        "assets": ["prosessor/proto/*.proto"],
+        "watchAssets": true,
+        "deleteOutDir": true
       }
     },
     "api-prod": {
@@ -50,7 +53,10 @@
       "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json",
         "webpackConfigPath": ".webpack/webpack.prod.js",
-        "typeCheck": true
+        "typeCheck": true,
+        "assets": ["prosessor/proto/*.proto"],
+        "watchAssets": true,
+        "deleteOutDir": true
       }
     },
     "cli": {

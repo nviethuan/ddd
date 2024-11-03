@@ -2,7 +2,7 @@ import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
 import { generateKeyPairSync } from 'crypto';
 import { writeFile, writeFileSync } from 'fs';
 import { Command, CommandRunner, Option } from 'nest-commander';
-import { Logger } from 'nestjs-pino';
+import { PinoLogger } from 'nestjs-pino';
 import { resolve } from 'path';
 
 interface KeyGeneratorOptions {
@@ -14,14 +14,15 @@ interface KeyGeneratorOptions {
   description: 'Generate rsa key files',
 })
 export class KeyGeneratorCmd extends CommandRunner {
-  constructor(private readonly logger: Logger) {
+  constructor(private readonly logger: PinoLogger) {
     super();
+    this.logger.setContext(KeyGeneratorCmd.name);
   }
 
   async run(_passedParam: string[], options?: KeyGeneratorOptions): Promise<void> {
     const out = resolve(process.cwd(), options?.out || '.');
 
-    this.logger.log('Output directory:', out);
+    this.logger.info('Output directory:', out);
 
     const keyPair = generateKeyPairSync('rsa', {
       modulusLength: 1024 * 4, // bits - standard for RSA keys
@@ -47,8 +48,8 @@ export class KeyGeneratorCmd extends CommandRunner {
       }),
     ]);
 
-    this.logger.log(`JWT__PRIVATE_KEY=${Buffer.from(keyPair.privateKey).toString(BUFFER_ENCODING)}`);
-    this.logger.log(`JWT__PUBLIC_KEY=${Buffer.from(keyPair.publicKey).toString(BUFFER_ENCODING)}`);
+    this.logger.info(`JWT__PRIVATE_KEY=${Buffer.from(keyPair.privateKey).toString(BUFFER_ENCODING)}`);
+    this.logger.info(`JWT__PUBLIC_KEY=${Buffer.from(keyPair.publicKey).toString(BUFFER_ENCODING)}`);
 
     process.exit(0);
   }
@@ -58,7 +59,7 @@ export class KeyGeneratorCmd extends CommandRunner {
     description: 'Output file',
   })
   parseOut(value: string): string {
-    this.logger.log('parseOut', value);
+    this.logger.info('parseOut', value);
     return value;
   }
 }

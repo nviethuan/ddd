@@ -20,6 +20,8 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { RedisClientModule } from '@app/redis-client';
 import { BuyModule } from '@modules/buy/buy.module';
 import { BinanceSubModule } from '@modules/binance-sub/binance-sub.module';
+import { SystemModule } from '@modules/system/system.module';
+import { HealthModule } from '@modules/health/health.module';
 
 @Module({
   imports: [
@@ -53,8 +55,10 @@ import { BinanceSubModule } from '@modules/binance-sub/binance-sub.module';
     BinanceSubModule,
     AuthModule,
     UserModule,
+    SystemModule,
     WalletModule,
     BuyModule,
+    HealthModule,
   ],
 })
 export class AppModule {}

@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import compression from 'compression';
 import helmet from 'helmet';
 import { setupSwagger } from '@utils/setupSwagger';
 import { Logger } from 'nestjs-pino';
 import { APP__DOCS_DESCRIPTION, APP__NAME, PORT } from '@common/configs/envs';
+import { ResponseInterceptor } from '@common/index';
+import { join } from 'path';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -13,6 +16,18 @@ export async function bootstrap() {
     bodyParser: true,
     rawBody: true,
   });
+  // app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.GRPC,
+  //   options: {
+  //     package: 'helloworld',
+  //     protoPath: join(__dirname, '../../../proto/helloworld.proto'),
+  //     url: '0.0.0.0:50051',
+  //   },
+  // });
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
+
   app.enableCors();
 
   app.setGlobalPrefix('api');
@@ -25,10 +40,11 @@ export async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   const logger = app.get(Logger);
 
-  setupSwagger({ app, title: APP__NAME, description: APP__DOCS_DESCRIPTION });
+  setupSwagger('express', { app, title: APP__NAME, description: APP__DOCS_DESCRIPTION });
 
   app.use(compression());
   app.use(helmet());

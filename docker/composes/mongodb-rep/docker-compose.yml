@@ -1,0 +1,54 @@
+services:
+  mongodb:
+    image: mongo:${MONGO_TAG:-latest}
+    container_name: mongodb
+    entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0", "--dbpath", "/data/db"]
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb:/data/db
+      - ./mongodb/configdb:/data/configdb
+    networks:
+      - mongo-network
+
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo:${MONGO_TAG:-latest}
+    expose:
+      - 27017
+    ports:
+      - 27018:27017
+    restart: always
+    entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0", "--dbpath", "/data/db"]
+    volumes:
+      - ./mongodb/data2/db:/data/db # Note the data2, it must be different to the original set.
+      - ./mongodb/data2/configdb:/data/configdb
+    networks:
+      - mongo-network
+
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo:${MONGO_TAG:-latest}
+    expose:
+      - 27017
+    ports:
+      - 27019:27017
+    restart: always
+    entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0", "--dbpath", "/data/db"]
+    volumes:
+      - ./mongodb/data3/db:/data/db
+      - ./mongodb/data3/configdb:/data/configdb
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      config:
+        - subnet: 192.168.107.0/24
