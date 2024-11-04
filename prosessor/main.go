@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"net"
-	"reflect"
-
 	pb "prosessor/proto"
+	"reflect"
 
 	"google.golang.org/grpc"
 
@@ -51,22 +51,38 @@ func isArray(value interface{}) bool {
 	return reflect.TypeOf(value).Kind() == reflect.Slice
 }
 
+var profit float64 = 1 // 1%
+
+func calculateShouldBuy(currentPrice *float64, priceHistories *[]float64, walletQuoteBalance *float64, ch chan bool) {
+	minPrice := math.MaxFloat64
+	for _, price := range *priceHistories {
+		if price < minPrice {
+			minPrice = price
+		}
+	}
+
+	ch <- *currentPrice < minPrice && *walletQuoteBalance >= 100
+}
+
+func calculateShouldSell(currentPrice *float64, boughtPrice *float64, walletBaseBalance *float64, ch chan bool) {
+	balanceWithProfit := *boughtPrice + (*boughtPrice * profit) / 100
+	validBalance := *walletBaseBalance > 0
+	
+	usdtBalanceWithBinanceFee := *walletBaseBalance * *currentPrice - (*walletBaseBalance * *currentPrice * 0.1) / 100
+
+	validProfit := usdtBalanceWithBinanceFee + (usdtBalanceWithBinanceFee * profit) / 100
+	ch <- *currentPrice > balanceWithProfit && validBalance && validProfit >= *currentPrice
+}
+
 func (s *server) Calculate(ctx context.Context, in *pb.CalculateRequest) (*pb.CalculateReply, error) {
-	symbol := in.GetSymbol()
+	// symbol := in.GetSymbol()
 	currentPrice := in.GetCurrentPrice()
+	boughtPrice := in.GetBoughtPrice()
 	walletBaseBalance := in.GetWalletBaseBalance()
 	walletQuoteBalance := in.GetWalletQuoteBalance()
 	priceHistories := in.GetPriceHistories()
 	purchasePowers := in.GetPurchasePowers()
 	sellPowers := in.GetSellPowers()
-
-	log.Printf("Received: %v", symbol)
-	log.Printf("Received: %v", currentPrice)
-	log.Printf("Received: %v", walletBaseBalance)
-	log.Printf("Received: %v", walletQuoteBalance)
-	log.Printf("Received: %v", priceHistories)
-	log.Printf("Received: %v", purchasePowers)
-	log.Printf("Received: %v", sellPowers)
 
 	if !isArray(priceHistories) {
 		return nil, fmt.Errorf("priceHistories is not a slice")
@@ -78,8 +94,16 @@ func (s *server) Calculate(ctx context.Context, in *pb.CalculateRequest) (*pb.Ca
 		return nil, fmt.Errorf("sellPowers is not an array")
 	}
 
+	chShouldBuy := make(chan bool, 1)
+	chShouldSell := make(chan bool, 1)
 
-	return &pb.CalculateReply{ShouldBuy: false, ShouldSell: false}, nil
+	go calculateShouldBuy(&currentPrice, &priceHistories, &walletQuoteBalance, chShouldBuy)
+	go calculateShouldSell(&currentPrice, &boughtPrice, &walletBaseBalance, chShouldSell)
+
+	shouldBuy := <-chShouldBuy
+	shouldSell := <-chShouldSell
+
+	return &pb.CalculateReply{ShouldBuy: shouldBuy, ShouldSell: shouldSell}, nil
 }
 
 func main() {

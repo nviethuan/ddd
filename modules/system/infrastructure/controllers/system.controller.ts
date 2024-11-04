@@ -8,6 +8,19 @@ import { Auth0Guard } from '@common/infrastructure/guards/auth0/auth0.guard';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 
+function getRandomFloatArray(size: number): number[] {
+  const arr: number[] = [];
+  for (let i = 0; i < size; i++) {
+    const randomFloat = Math.random() * (70_000 - 60_000) + 60_000;
+    arr.push(randomFloat);
+  }
+  return arr;
+}
+
+const randomFloatArray = getRandomFloatArray(100_000);
+
+console.log('Min price', Math.min(...randomFloatArray));
+
 @Controller('system')
 @ApiTags('System Controller')
 export class SystemController {
@@ -44,22 +57,25 @@ export class SystemController {
   }
 
   @Get('grpc/hello')
-  getHello() {
+  async getHello() {
     const metadata = new Metadata();
     metadata.add('api-key', 'your-secure-api-key');
 
     const client = this.client.getService<any>('Calculate');
-    return client.Calculate(
+    console.time('grpc');
+    const res = await client.Calculate(
       {
         symbol: 'BTCUSDT',
-        currentPrice: 10000,
-        walletBaseBalance: 100,
-        walletQuoteBalance: 100000,
-        priceHistories: [],
+        currentPrice: 100,
+        walletBaseBalance: 0,
+        walletQuoteBalance: 100,
+        priceHistories: randomFloatArray,
         purchasePowers: [],
         sellPowers: [],
       },
       metadata,
     );
+    console.timeEnd('grpc');
+    return res;
   }
 }

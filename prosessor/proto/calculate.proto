@@ -11,11 +11,12 @@ service Calculate {
 message CalculateRequest {
   string symbol = 1;
   double currentPrice = 2;
-  double walletBaseBalance = 3;
-  double walletQuoteBalance = 4;
-  repeated double priceHistories = 5 [packed=true];
-  repeated double purchasePowers = 6 [packed=true];
-  repeated double sellPowers = 7 [packed=true];
+  double boughtPrice = 3;
+  double walletBaseBalance = 4;
+  double walletQuoteBalance = 5;
+  repeated double priceHistories = 6 [packed=true];
+  repeated double purchasePowers = 7 [packed=true];
+  repeated double sellPowers = 8 [packed=true];
 }
 
 message CalculateReply {

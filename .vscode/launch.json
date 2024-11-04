@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Go launch file",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/prosessor/main.go"
+    },
+    {
       "name": "Attach",
       "port": 9229,
       "request": "attach",
