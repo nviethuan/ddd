@@ -12,4 +12,7 @@ export class Wallet extends BaseModelWithTimestamps {
   owner: ID | User;
   group: ID | Group;
   permission: number[];
+  symbol: string;
+  isActive: boolean;
+  isDeleted: boolean;
 }

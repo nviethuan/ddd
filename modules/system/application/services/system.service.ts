@@ -8,8 +8,8 @@ import { User } from '@modules/user/domain/entities/user.entity';
 export class SystemService {
   constructor(private readonly binanceSubService: BinanceSubService) {}
 
-  getBinanceSystemStatus() {
-    return this.binanceSubService.getStatus();
+  getBinanceSystemStatus(user: User) {
+    return this.binanceSubService.getStatus(user);
   }
 
   startBinanceSub(user: User) {

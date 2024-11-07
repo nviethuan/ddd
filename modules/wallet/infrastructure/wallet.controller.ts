@@ -1,4 +1,17 @@
-import { Controller, Post, Body, UseGuards, Req, UseInterceptors, Get, Param, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Req,
+  UseInterceptors,
+  Get,
+  Param,
+  Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { CreateWalletDto } from '../domain/dto/create-wallet.dto';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
@@ -30,6 +43,7 @@ export class WalletController {
   @ApiBody({
     type: CreateWalletDto,
   })
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(GroupInterceptor)
   create(@Body() createWalletDto: CreateWalletDto, @Req() req: AuthRequest) {
     return this.commandBus.execute(new CreateWallet(createWalletDto, req.user));

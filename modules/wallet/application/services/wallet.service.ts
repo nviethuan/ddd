@@ -9,6 +9,7 @@ import { AuthUser, Group } from '@common/types/app-request';
 import { ById } from '@modules/wallet/domain/value-objects/get-wallet-by-id';
 import { UpdateWallet } from '@modules/wallet/domain/value-objects/update-wallet';
 import { DeleteWalletById } from '@modules/wallet/domain/value-objects/delete-wallet-by-id';
+import { isNil, omitBy } from 'lodash';
 
 @Injectable()
 export class WalletService {
@@ -29,6 +30,7 @@ export class WalletService {
       buyPrice: Infinity,
       owner: payload.user._id,
       group: defaultGroup._id,
+      symbol: `${payload.payload.symbolBase}${payload.payload.symbolQuote}`.toLowerCase(),
       permission: DEFAULT_PERMISSIONS,
     });
 
@@ -52,7 +54,7 @@ export class WalletService {
         _id: command.toObjectID(),
         owner: command.user._id,
       },
-      command.payload,
+      omitBy(command.payload, isNil),
     );
   }
 

@@ -8,19 +8,6 @@ import { Auth0Guard } from '@common/infrastructure/guards/auth0/auth0.guard';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 
-function getRandomFloatArray(size: number): number[] {
-  const arr: number[] = [];
-  for (let i = 0; i < size; i++) {
-    const randomFloat = Math.random() * (70_000 - 60_000) + 60_000;
-    arr.push(randomFloat);
-  }
-  return arr;
-}
-
-const randomFloatArray = getRandomFloatArray(100_000);
-
-console.log('Min price', Math.min(...randomFloatArray));
-
 @Controller('system')
 @ApiTags('System Controller')
 export class SystemController {
@@ -30,15 +17,12 @@ export class SystemController {
   ) {}
 
   @Get('binance/status')
-  getBinanceSystemStatus() {
-    return this.systemService.getBinanceSystemStatus();
+  @UseGuards(Auth0Guard)
+  @ApiBearerAuth()
+  @HttpCode(200)
+  getBinanceSystemStatus(@Req() req: AuthRequest) {
+    return this.systemService.getBinanceSystemStatus(req.user);
   }
-
-  // @Post('binance/status')
-  // @HttpCode(200)
-  // toggleBinanceSystemStatus() {
-  //   return this.systemService.toggleBinanceSystemStatus();
-  // }
 
   @Post('binance/start')
   @UseGuards(Auth0Guard)
@@ -69,7 +53,7 @@ export class SystemController {
         currentPrice: 100,
         walletBaseBalance: 0,
         walletQuoteBalance: 100,
-        priceHistories: randomFloatArray,
+        priceHistories: [],
         purchasePowers: [],
         sellPowers: [],
       },
