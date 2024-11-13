@@ -1,6 +1,6 @@
 import { Login } from '@modules/user/domain/value-objects/login';
 import { LoginDto } from './../../domain/dtos/login.dto';
-import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Req, HttpStatus, HttpCode } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
@@ -21,6 +21,7 @@ export class UserController {
   @ApiBody({
     type: LoginDto,
   })
+  @HttpCode(HttpStatus.OK)
   login(@Body() login: LoginDto) {
     return this.commandBus.execute(new Login(login.username, login.password));
   }
