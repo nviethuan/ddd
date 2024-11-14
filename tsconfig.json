@@ -58,6 +58,12 @@
       ],
       "@app/redis-client/*": [
         "libs/redis-client/src/*"
+      ],
+      "@app/casl": [
+        "libs/casl/src"
+      ],
+      "@app/casl/*": [
+        "libs/casl/src/*"
       ]
     }
   }

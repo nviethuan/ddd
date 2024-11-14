@@ -40,7 +40,9 @@
         "tsConfigPath": "apps/api/tsconfig.app.json",
         "webpackConfigPath": ".webpack/webpack-swc.config.js",
         "typeCheck": true,
-        "assets": ["prosessor/proto/*.proto"],
+        "assets": [
+          "prosessor/proto/*.proto"
+        ],
         "watchAssets": true,
         "deleteOutDir": true
       }
@@ -54,7 +56,9 @@
         "tsConfigPath": "apps/api/tsconfig.app.json",
         "webpackConfigPath": ".webpack/webpack.prod.js",
         "typeCheck": true,
-        "assets": ["prosessor/proto/*.proto"],
+        "assets": [
+          "prosessor/proto/*.proto"
+        ],
         "watchAssets": true,
         "deleteOutDir": true
       }
@@ -104,6 +108,15 @@
       "sourceRoot": "libs/redis-client/src",
       "compilerOptions": {
         "tsConfigPath": "libs/redis-client/tsconfig.lib.json"
+      }
+    },
+    "casl": {
+      "type": "library",
+      "root": "libs/casl",
+      "entryFile": "index",
+      "sourceRoot": "libs/casl/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/casl/tsconfig.lib.json"
       }
     }
   }
