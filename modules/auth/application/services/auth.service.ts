@@ -2,9 +2,9 @@ import { JWT__PRIVATE_KEY } from '@common/configs/envs';
 import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
 import { generateHashSha512 } from '@common/utils/hash';
 import KeyvRedis from '@keyv/redis';
-import { RefreshToken } from '@modules/auth/domain/object-values/refresh-token';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
+import { RefreshToken } from '../ports/refresh-token';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +12,7 @@ export class AuthService {
     @Inject(KeyvRedis)
     private readonly redis: KeyvRedis,
   ) {}
+
   async refreshToken(refreshToken: RefreshToken) {
     if (!refreshToken.refreshToken) {
       throw new BadRequestException();

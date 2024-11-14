@@ -1,12 +1,12 @@
 import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ForceChangePasswordDto } from 'apps/cli/src/infrastructure/commands/user/force-change-password.cmd';
-import { CreateGroupDto } from 'modules/group/application/dtos/create-group.dto';
+import { CreateGroupDto } from '@modules/group/domain/dtos/create-group.dto';
 import { GroupService } from 'modules/group/application/services/group.service';
-import { CreateUserGroupDto } from 'modules/user-group/application/dtos/create-user-group.dto';
+import { CreateUserGroupDto } from '@modules/user-group/domain/dtos/create-user-group.dto';
 import { UserGroupService } from 'modules/user-group/application/services/user-group.service';
 import { UserService } from 'modules/user/application/services/user.service';
-import { Password } from 'modules/user/domain/value-objects/password';
+import { Password } from '@modules/user/application/ports/password';
 import { Mongoose } from 'mongoose';
 
 @Injectable()

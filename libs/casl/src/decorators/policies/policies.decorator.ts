@@ -15,4 +15,4 @@ export const CHECK_POLICIES_KEY = 'policies';
 type Subjects = InferSubjects<typeof User> | 'all';
 export type AppAbility = PureAbility<[Action, Subjects]>;
 
-export const Policies = (...args: [Action, Subjects][]) => SetMetadata('policies', args);
+export const Policies = (...args: [Action, Subjects][]) => SetMetadata(CHECK_POLICIES_KEY, args);

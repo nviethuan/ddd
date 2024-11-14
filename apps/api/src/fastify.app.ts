@@ -8,9 +8,9 @@ import { Logger } from 'nestjs-pino';
 import { APP__DOCS_DESCRIPTION, APP__NAME, PORT } from '@common/configs/envs';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ResponseInterceptor } from '@common/index';
-import { Transport } from '@nestjs/microservices';
-import { MicroserviceOptions } from '@nestjs/microservices';
-import { join } from 'path';
+// import { Transport } from '@nestjs/microservices';
+// import { MicroserviceOptions } from '@nestjs/microservices';
+// import { join } from 'path';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
@@ -48,8 +48,10 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   app.use(compression());
   app.use(helmet());
 
-  await app.listen(PORT);
-  logger.debug(`App listening on http://localhost:${PORT}`);
+  await app.listen({ port: Number(PORT) });
+  logger.debug(
+    `App listening on: http://localhost:${PORT} - RAM: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)}MB`,
+  );
 
   return app;
 }

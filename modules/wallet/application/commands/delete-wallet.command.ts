@@ -1,6 +1,6 @@
-import { DeleteWalletById } from '@modules/wallet/domain/value-objects/delete-wallet-by-id';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { WalletService } from '../services/wallet.service';
+import { DeleteWalletById } from '../ports/delete-wallet-by-id';
 
 @CommandHandler(DeleteWalletById)
 export class DeleteWalletHandler implements ICommandHandler<DeleteWalletById> {

@@ -17,14 +17,14 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiSecurity, ApiTags } from '@nes
 import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
 import { Auth0Guard } from '@common/infrastructure/guards/auth0/auth0.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateWallet } from '../domain/value-objects/create-wallet';
 import { GroupInterceptor } from '@common/infrastructure/interceptors/group/group.interceptor';
 import { AuthRequest } from '@common/types/app-request';
-import { GetAllWallets } from '../domain/value-objects/get-all-wallets';
-import { ById } from '../domain/value-objects/get-wallet-by-id';
 import { UpdateWalletDto } from '../domain/dto/update-wallet.dto';
-import { UpdateWallet } from '../domain/value-objects/update-wallet';
-import { DeleteWalletById } from '../domain/value-objects/delete-wallet-by-id';
+import { CreateWallet } from '../application/ports/create-wallet';
+import { GetAllWallets } from '../application/ports/get-all-wallets';
+import { ById } from '../application/ports/get-wallet-by-id';
+import { UpdateWallet } from '../application/ports/update-wallet';
+import { DeleteWalletById } from '../application/ports/delete-wallet-by-id';
 
 @Controller('wallets')
 @ApiTags('Wallet')

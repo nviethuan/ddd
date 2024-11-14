@@ -1,6 +1,6 @@
-import { UpdateWallet } from '@modules/wallet/domain/value-objects/update-wallet';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { WalletService } from '../services/wallet.service';
+import { UpdateWallet } from '../ports/update-wallet';
 
 @CommandHandler(UpdateWallet)
 export class UpdateWalletHandler implements ICommandHandler<UpdateWallet> {

@@ -1,10 +1,10 @@
 import { UpdateUserDto } from '@modules/user/domain/dtos/update-user.dto';
 import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
-import { Login } from '@modules/user/domain/value-objects/login';
+import { Login } from '@modules/user/application/value-objects/login';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'modules/user/domain/entities/user.entity';
 import { Model, Mongoose } from 'mongoose';
-import { Password } from 'modules/user/domain/value-objects/password';
+import { Password } from '@modules/user/application/ports/password';
 import jwt from 'jsonwebtoken';
 import { JWT__PRIVATE_KEY } from '@common/configs/envs';
 import { generateHashSha512 } from '@common/utils/hash';

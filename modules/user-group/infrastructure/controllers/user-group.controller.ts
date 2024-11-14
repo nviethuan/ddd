@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreateUserGroupDto } from 'modules/user-group/application/dtos/create-user-group.dto';
-import { UpdateUserGroupDto } from 'modules/user-group/application/dtos/update-user-group.dto';
+import { CreateUserGroupDto } from '@modules/user-group/domain/dtos/create-user-group.dto';
+import { UpdateUserGroupDto } from '@modules/user-group/domain/dtos/update-user-group.dto';
 import { UserGroupService } from 'modules/user-group/application/services/user-group.service';
 
 @Controller('user-group')

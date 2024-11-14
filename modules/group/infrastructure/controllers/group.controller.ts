@@ -1,14 +1,18 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { CreateGroupDto } from '../../application/dtos/create-group.dto';
+import { CreateGroupDto } from '../../domain/dtos/create-group.dto';
 import { GroupService } from 'modules/group/application/services/group.service';
+import { CommandBus } from '@nestjs/cqrs';
+import { CreateGroup } from '@modules/group/application/ports/create-group';
 
 @Controller('group')
 export class GroupController {
-  constructor(private readonly groupService: GroupService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   @Post()
   create(@Body() createGroupDto: CreateGroupDto) {
-    return this.groupService.create(createGroupDto);
+    const createGroup = new CreateGroup(createGroupDto);
+
+    return this.commandBus.execute(createGroup);
   }
 
   // @Get()

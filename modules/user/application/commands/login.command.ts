@@ -1,6 +1,6 @@
 import { UserService } from '../services/user.service';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Login } from '../../domain/value-objects/login';
+import { Login } from '../ports/login';
 
 @CommandHandler(Login)
 export class LoginCommandHandler implements ICommandHandler<Login> {

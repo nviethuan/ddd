@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreateAuthAppDto } from 'modules/auth-app/application/dtos/create-auth-app.dto';
-import { UpdateAuthAppDto } from 'modules/auth-app/application/dtos/update-auth-app.dto';
+import { CreateAuthAppDto } from '@modules/auth-app/domain/dtos/create-auth-app.dto';
+import { UpdateAuthAppDto } from '@modules/auth-app/domain/dtos/update-auth-app.dto';
 import { AuthAppService } from 'modules/auth-app/application/services/auth-app.service';
 
 @Controller('auth-app')

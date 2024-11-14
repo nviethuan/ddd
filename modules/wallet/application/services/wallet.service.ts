@@ -3,12 +3,12 @@ import { CreateWalletDto } from '../../domain/dto/create-wallet.dto';
 import { UpdateWalletDto } from '../../domain/dto/update-wallet.dto';
 import { Wallet } from '@modules/wallet/domain/entities/wallet.entity';
 import { Model } from 'mongoose';
-import { CreateWallet } from '@modules/wallet/domain/value-objects/create-wallet';
+import { CreateWallet } from '@modules/wallet/domain/ports/create-wallet';
 import { DEFAULT_PERMISSIONS } from '@common/utils/permission';
 import { AuthUser, Group } from '@common/types/app-request';
-import { ById } from '@modules/wallet/domain/value-objects/get-wallet-by-id';
-import { UpdateWallet } from '@modules/wallet/domain/value-objects/update-wallet';
-import { DeleteWalletById } from '@modules/wallet/domain/value-objects/delete-wallet-by-id';
+import { ById } from '@modules/wallet/domain/ports/get-wallet-by-id';
+import { UpdateWallet } from '@modules/wallet/domain/ports/update-wallet';
+import { DeleteWalletById } from '@modules/wallet/domain/ports/delete-wallet-by-id';
 import { isNil, omitBy } from 'lodash';
 
 @Injectable()

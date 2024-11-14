@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserGroupDto } from '../dtos/create-user-group.dto';
-import { UpdateUserGroupDto } from '../dtos/update-user-group.dto';
+import { CreateUserGroupDto } from '../../domain/dtos/create-user-group.dto';
+import { UpdateUserGroupDto } from '../../domain/dtos/update-user-group.dto';
 import { Model } from 'mongoose';
 import { UserGroup } from 'modules/user-group/domain/entities/user-group.entity';
 

@@ -14,4 +14,5 @@ export class User implements BaseModelWithTimestamps {
   deletedBy?: ID | User;
   createdAt?: Date;
   updatedAt?: Date;
+  gs?: string;
 }

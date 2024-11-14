@@ -3,6 +3,7 @@ import { User } from 'modules/user/domain/entities/user.entity';
 
 export class Group implements CommonModel {
   _id?: ID;
+  displayName: string;
   name: string;
   description?: string;
 

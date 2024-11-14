@@ -1,6 +1,6 @@
-import { RefreshToken } from '@modules/auth/domain/object-values/refresh-token';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AuthService } from '../services/auth.service';
+import { RefreshToken } from '../ports/refresh-token';
 
 @CommandHandler(RefreshToken)
 export class RefreshTokenCommandHandler implements ICommandHandler<RefreshToken> {

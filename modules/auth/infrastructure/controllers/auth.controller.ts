@@ -1,11 +1,10 @@
-import { Controller, Post, Body, UseGuards, Inject, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { RefreshTokenRequestPayloadDto } from '@modules/auth/domain/dtos/refresh-token-request-payload.dto';
-import { RefreshToken } from '@modules/auth/domain/object-values/refresh-token';
 import { ApiBody, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
-import { Redis } from 'ioredis';
-import { PUBLISHER } from '@app/redis-client';
+
+import { RefreshToken } from '@modules/auth/application/ports/refresh-token';
 
 @Controller('auth')
 @ApiTags('Auth')

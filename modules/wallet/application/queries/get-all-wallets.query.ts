@@ -1,6 +1,6 @@
-import { GetAllWallets } from '@modules/wallet/domain/value-objects/get-all-wallets';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { WalletService } from '../services/wallet.service';
+import { GetAllWallets } from '../ports/get-all-wallets';
 
 @QueryHandler(GetAllWallets)
 export class GetAllWalletsHandler implements IQueryHandler<GetAllWallets> {
