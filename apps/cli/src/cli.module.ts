@@ -42,7 +42,7 @@ import {
     }),
     RedisCacheModule.forRoot({
       host: KEYV__REDIS__HOST,
-      port: KEYV__REDIS__PORT,
+      port: Number(KEYV__REDIS__PORT),
       username: KEYV__REDIS__USERNAME,
       password: KEYV__REDIS__PASSWORD,
     }),

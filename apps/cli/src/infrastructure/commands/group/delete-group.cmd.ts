@@ -1,6 +1,6 @@
-import { Logger } from '@nestjs/common';
 import { GroupCliService } from 'apps/cli/src/application/services/group/group.service';
-import { CommandRunner, Option, SubCommand } from 'nest-commander';
+import { CommandRunner, SubCommand } from 'nest-commander';
+import { Logger } from 'nestjs-pino';
 
 interface CreateGroupOptions {
   description?: string;

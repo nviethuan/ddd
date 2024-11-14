@@ -118,6 +118,18 @@
       "compilerOptions": {
         "tsConfigPath": "libs/casl/tsconfig.lib.json"
       }
+    },
+    "migration": {
+      "type": "application",
+      "root": "apps/migration",
+      "entryFile": "main",
+      "sourceRoot": "apps/migration/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/migration/tsconfig.app.json",
+        "builder": "tsc",
+        "webpack": false,
+        "typeCheck": true
+      }
     }
   }
 }
