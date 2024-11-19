@@ -9,6 +9,7 @@ import { APP__DOCS_DESCRIPTION, APP__NAME, PORT } from '@common/configs/envs';
 import { ResponseInterceptor } from '@common/index';
 import { join } from 'path';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -24,6 +25,7 @@ export async function bootstrap() {
   //     url: '0.0.0.0:50051',
   //   },
   // });
+  app.useGlobalGuards(new ApiKeyGuard());
   app.enableVersioning({
     type: VersioningType.URI,
   });

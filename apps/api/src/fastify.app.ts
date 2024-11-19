@@ -8,6 +8,7 @@ import { Logger } from 'nestjs-pino';
 import { APP__DOCS_DESCRIPTION, APP__NAME, PORT } from '@common/configs/envs';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ResponseInterceptor } from '@common/index';
+import { ApiKeyGuard } from '@common/infrastructure/guards/api-key/api-key.guard';
 // import { Transport } from '@nestjs/microservices';
 // import { MicroserviceOptions } from '@nestjs/microservices';
 // import { join } from 'path';
@@ -23,6 +24,7 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   //     url: '0.0.0.0:50051',
   //   },
   // });
+  app.useGlobalGuards(new ApiKeyGuard());
   app.enableVersioning({
     type: VersioningType.URI,
   });
