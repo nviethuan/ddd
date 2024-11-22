@@ -1,6 +1,5 @@
 import { UpdateUserDto } from '@modules/user/domain/dtos/update-user.dto';
 import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
-import { Login } from '@modules/user/application/value-objects/login';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'modules/user/domain/entities/user.entity';
 import { Model, Mongoose } from 'mongoose';
@@ -17,6 +16,7 @@ import { encode } from '@common/utils/security';
 import { sleep } from '@common/utils/sleep';
 import KeyvRedis from '@keyv/redis';
 import { BUFFER_ENCODING } from '@common/constants/buffer-encoding';
+import { Login } from '../ports/login';
 
 @Injectable()
 export class UserService {
@@ -106,7 +106,7 @@ export class UserService {
     };
 
     this.redis.namespace = 'auth';
-    await this.redis.set(refreshToken, JSON.stringify(payload), 2_592_000_000); // 2_592_000_000 is 30 days in milliseconds
+    await this.redis.set(refreshToken, JSON.stringify(payload), 604_800_000); // 604_800_000 is 7 days in milliseconds
 
     await sleep(1000);
 
