@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { totalmem, freemem } from 'os';
 import { Socket } from 'socket.io';
 import * as si from 'systeminformation';
 
