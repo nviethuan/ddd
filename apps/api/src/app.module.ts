@@ -22,6 +22,7 @@ import { BuyModule } from '@modules/buy/buy.module';
 import { BinanceSubModule } from '@modules/binance-sub/binance-sub.module';
 import { SystemModule } from '@modules/system/system.module';
 import { HealthModule } from '@modules/health/health.module';
+import { ResourceModule } from '@modules/resource/resource.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { HealthModule } from '@modules/health/health.module';
     WalletModule,
     BuyModule,
     HealthModule,
+    ResourceModule,
   ],
 })
 export class AppModule {}

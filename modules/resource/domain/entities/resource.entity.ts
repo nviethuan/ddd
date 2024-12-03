@@ -1,1 +1,5 @@
-export class Resource {}
+export class Resource {
+  name: string;
+  label: string;
+  description: string;
+}

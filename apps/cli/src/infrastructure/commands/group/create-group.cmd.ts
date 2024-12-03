@@ -4,6 +4,7 @@ import { CommandRunner, Option, SubCommand } from 'nest-commander';
 
 interface CreateGroupOptions {
   description?: string;
+  hidden?: boolean;
 }
 
 @SubCommand({ name: 'create', aliases: ['c'], arguments: 'name', description: 'Create a new group' })
@@ -17,7 +18,7 @@ export class CreateGroupCmd extends CommandRunner {
 
   async run(passedParam: string[], options: CreateGroupOptions): Promise<void> {
     try {
-      const group = await this.cliGroupService.createGroup(passedParam[0], options.description);
+      const group = await this.cliGroupService.createGroup(passedParam[0], options.description, options.hidden);
       this.logService.verbose(group);
       process.exit(0);
     } catch (error) {
@@ -32,5 +33,13 @@ export class CreateGroupCmd extends CommandRunner {
   })
   parseDescription(val: string): string {
     return val;
+  }
+
+  @Option({
+    flags: '-h, --hidden',
+    description: 'Hidden group',
+  })
+  parseHidden(val: string): boolean {
+    return val === 'true';
   }
 }

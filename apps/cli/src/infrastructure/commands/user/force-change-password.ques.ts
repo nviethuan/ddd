@@ -10,13 +10,13 @@ export class ForceChangePasswordQuestions {
     name: 'username',
   })
   async parseUsername(val: string) {
-    const user = await this.userCliService.findUserByUsername(val);
+    // const user = await this.userCliService.findUserByUsername(val);
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    // if (!user) {
+    //   throw new Error('User not found');
+    // }
 
-    console.log('\n\n', user.toJSON(), '\n');
+    // console.log('\n\n', user.toJSON(), '\n');
 
     return val;
   }

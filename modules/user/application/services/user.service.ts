@@ -29,15 +29,11 @@ export class UserService {
     private readonly userGroupModel: Model<UserGroup>,
     @Inject(RefreshToken)
     private readonly refreshTokenModel: Model<RefreshToken>,
-    @Inject(Mongoose)
-    private readonly connection: Mongoose,
     @Inject(KeyvRedis)
     private readonly redis: KeyvRedis,
   ) {}
 
   create(createUserDto: CreateUserDto) {
-    createUserDto.password = new Password(createUserDto.password).hash();
-
     return this.userModel.create(createUserDto);
   }
 
@@ -68,6 +64,20 @@ export class UserService {
           ],
         },
       },
+      {
+        $lookup: {
+          from: Collection.LOGIN_PASSWORD,
+          localField: '_id',
+          foreignField: 'refId',
+          as: Collection.LOGIN_PASSWORD,
+        },
+      },
+      {
+        $unwind: {
+          path: toFieldName(Collection.LOGIN_PASSWORD),
+          preserveNullAndEmptyArrays: true,
+        },
+      },
     ]);
 
     if (!user) {
@@ -76,7 +86,7 @@ export class UserService {
 
     const password = new Password(login.password);
 
-    if (!password.compare(user.password)) {
+    if (!password.compare(user[Collection.LOGIN_PASSWORD].password)) {
       throw new BadRequestException('User or password incorrect');
     }
 
@@ -108,8 +118,6 @@ export class UserService {
     this.redis.namespace = 'auth';
     await this.redis.set(refreshToken, JSON.stringify(payload), 604_800_000); // 604_800_000 is 7 days in milliseconds
 
-    await sleep(1000);
-
     return {
       accessToken: jwt.sign(payload, Buffer.from(JWT__PRIVATE_KEY, BUFFER_ENCODING), {
         expiresIn: '1h',
@@ -125,70 +133,5 @@ export class UserService {
 
   findByUsername(username: string) {
     return this.userModel.findOne({ username });
-  }
-
-  /**
-   * Create a system user
-   * full access to the system
-   * group: admin
-   * permission: full access
-   * @param createUserDto
-   * @returns
-   */
-  async createSystemUser(createUserDto: CreateUserDto) {
-    const sesstion = await this.connection.startSession();
-
-    sesstion.startTransaction();
-
-    try {
-      const [user] = await this.userModel.create(
-        [
-          {
-            email: createUserDto.email,
-            username: createUserDto.username,
-            password: new Password(createUserDto.password).hash(),
-            createdBy: null,
-            updatedBy: null,
-            fName: createUserDto.fName,
-            lName: createUserDto.lName,
-            locale: createUserDto.locale,
-            phone: createUserDto.phone,
-            isActive: true,
-          },
-        ],
-        { session: sesstion },
-      );
-
-      const [group] = await this.groupModel.create(
-        [
-          {
-            name: createUserDto.username,
-            description: 'CLI',
-            createdBy: user.id,
-            updatedBy: user.id,
-          },
-        ],
-        { session: sesstion },
-      );
-
-      await this.userGroupModel.create(
-        [
-          {
-            user: user.id,
-            group: group.id,
-            createdBy: user.id,
-            updatedBy: user.id,
-          },
-        ],
-        { session: sesstion },
-      );
-
-      await sesstion.commitTransaction();
-
-      return user;
-    } catch (error) {
-      await sesstion.abortTransaction();
-      throw error;
-    }
   }
 }

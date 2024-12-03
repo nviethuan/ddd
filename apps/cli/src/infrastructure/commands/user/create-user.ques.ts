@@ -4,6 +4,7 @@ import startCase from 'lodash/startCase';
 
 @QuestionSet({ name: QuestionName.CREATE_USER })
 export class CreateUserQuestions {
+  private password: string;
   @Question({
     message: 'What is the username?',
     name: 'username',
@@ -18,6 +19,19 @@ export class CreateUserQuestions {
     type: 'password',
   })
   parsePassword(val: string) {
+    this.password = val;
+    return val;
+  }
+
+  @Question({
+    message: 'Confirm password',
+    name: 'confirmPassword',
+    type: 'password',
+  })
+  parseConfirmPassword(val: string) {
+    if (val !== this.password) {
+      throw new Error('Password does not match');
+    }
     return val;
   }
 
@@ -54,11 +68,20 @@ export class CreateUserQuestions {
   }
 
   @Question({
-    message: 'What is the locale?',
+    message: 'What is the locale? - vi: vi-VN, en: en-US',
     name: 'locale',
-    default: 'en',
+    default: 'en-US',
   })
   parseLocale(val: string) {
+    return val;
+  }
+
+  @Question({
+    message: 'Is root?',
+    name: 'isRoot',
+    type: 'confirm',
+  })
+  parseIsRoot(val: boolean) {
     return val;
   }
 }

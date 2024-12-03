@@ -4,6 +4,13 @@ import { QuestionName } from 'apps/cli/src/utils/question-name';
 import { CreateUserDto } from '@modules/user/domain/dtos/create-user.dto';
 import { CommandRunner, InquirerService, SubCommand } from 'nest-commander';
 
+export class CreateUserOptions extends CreateUserDto {
+  phone?: string;
+  email?: string;
+  password?: string;
+  isRoot?: boolean;
+}
+
 @SubCommand({ name: 'create', aliases: ['c'], description: 'Create a new user' })
 export class CreateUserCmd extends CommandRunner {
   constructor(
@@ -16,7 +23,7 @@ export class CreateUserCmd extends CommandRunner {
 
   async run(): Promise<void> {
     try {
-      const user: CreateUserDto = await this.inquirer.ask(QuestionName.CREATE_USER, undefined);
+      const user: CreateUserOptions = await this.inquirer.ask(QuestionName.CREATE_USER, undefined);
       this.logService.verbose('Creating user...');
       await this.userCliService.createUser(user);
       this.logService.verbose('User created successfully');

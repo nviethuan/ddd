@@ -1,6 +1,6 @@
 import { BaseModelWithTimestamps, ID } from '@common/types/baseModel';
 
 export class LoginPassword extends BaseModelWithTimestamps {
-  entityId: ID;
+  refId: ID;
   hash: string;
 }

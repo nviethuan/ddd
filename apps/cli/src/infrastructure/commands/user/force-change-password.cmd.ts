@@ -22,7 +22,7 @@ export class ForceChangePasswordCmd extends CommandRunner {
     try {
       const payload: ForceChangePasswordDto = await this.inquirer.ask(QuestionName.FORCE_CHANGE_PASSWORD, undefined);
       this.logService.verbose('Starting force change password...');
-      await this.userCliService.forceChangePassword(payload);
+      // await this.userCliService.forceChangePassword(payload);
       this.logService.verbose('Force change password successfully');
       process.exit(0);
     } catch (error) {

@@ -24,6 +24,6 @@ const userGroupSchema = new Schema(
   },
 );
 
-userGroupSchema.index({ userId: 1, groupId: 1 }, { unique: true, name: '29_Sept_24_user_group_unique' });
+userGroupSchema.index({ user: 1, group: 1 }, { unique: true, name: '29_Sept_24_user_group_unique' });
 
 export { userGroupSchema };
