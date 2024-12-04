@@ -1,6 +1,6 @@
 import { CreateResourceDto } from '@modules/resource/domain/dto/create-resource.dto';
+import { ResourceService } from '@modules/resource/domain/services/resource.service';
 import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs';
-import { ResourceService } from '../services/resource.service';
 
 export class CreateResourceCommand implements ICommand {
   constructor(public readonly createResourceDto: CreateResourceDto) {}

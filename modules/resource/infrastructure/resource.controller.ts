@@ -1,7 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
-import { ResourceService } from '../application/services/resource.service';
+import { Controller, Get, Post, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { CreateResourceDto } from '../domain/dto/create-resource.dto';
-import { UpdateResourceDto } from '../domain/dto/update-resource.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FindAllResourcesQuery } from '../application/queries/find-all.query';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';

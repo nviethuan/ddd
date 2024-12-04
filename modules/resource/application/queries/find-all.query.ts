@@ -1,5 +1,5 @@
+import { ResourceService } from '@modules/resource/domain/services/resource.service';
 import { IQuery, IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { ResourceService } from '../services/resource.service';
 
 export class FindAllResourcesQuery implements IQuery {}
 
